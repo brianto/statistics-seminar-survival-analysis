@@ -1,0 +1,39 @@
+\documentclass[12pt]{beamer}
+
+\title{Survival Analysis}
+\subtitle{Senior Statistics Seminar}
+\author{Brian To}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+  \maketitle
+
+  %%% Introduction
+  \begin{frame}{Sounds cool\ldots but what is it?}
+    \begin{itemize}
+      \item What proportion will ``survive'' past a certain time?
+      % Event History Analysis (sociology):
+      %   Which kind of strikes last more than 3 days?
+      \item Of those that ``survive,'' what is their failure or death rate?
+      % Reliability Analysis (engineering):
+      %   How long do different types of F1 tyres last?
+      \item What factors affect how individuals ``survive''?
+      % Duration Modeling (economics):
+      %   How do different factors affect unemployment duration?
+    \end{itemize}
+  \end{frame}
+
+  %%% History
+  \begin{frame}{How did this magic happen?}
+    \begin{itemize}
+      \item Analyze actuarial data
+      % for mortality tables, very informal
+      \item Became a discipline in WWII
+      % interest reliability of equipment
+      % spurred on by spike in demands for reliability, quality
+      \item Medical field drove much of survival analysis
+      % b/c studies do not need all subjects at the start of the study (async)
+      %   ...handles subjects that quit, cannot follow-up, or die of different event
+    \end{itemize}
+  \end{frame}
+\end{document}
