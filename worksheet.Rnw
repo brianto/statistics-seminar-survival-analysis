@@ -1,0 +1,12 @@
+\documentclass[10pt]{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\begin{tabular}{c||c|c||c|c||c}
+\\
+$t$ & $e$ & $r$ & $P_d(t) = \frac{e}{r}$ & $P_s(t) = 1 - \frac{e}{r}$ & $P_s(t < T)$ \\
+\\
+\end{tabular}
+
+\end{document}
