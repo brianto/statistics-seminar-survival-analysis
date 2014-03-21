@@ -21,9 +21,13 @@
       % Duration Modeling (economics):
       %   How do different factors affect unemployment duration?
     \end{itemize}
+    
+    % also: political careers, earthquakes, medical, 
   \end{frame}
 
   %%% History
+  %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
+  %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
   \begin{frame}{How did this magic happen?}
     \begin{itemize}
       \item Analyze actuarial data
@@ -34,6 +38,12 @@
       \item Medical field drove much of survival analysis
       % b/c studies do not need all subjects at the start of the study (async)
       %   ...handles subjects that quit, cannot follow-up, or die of different event
+      %   (handles incomplete data)
+      \item Kicked off with Kaplan-Meier estimator
+      % http://www.jehps.net/juin2009/Aalenetal.pdf
+      % raises new questions: how to compare survival curves?
+      % prop hazards resolved covariates problem
+      % application was ahead of theory, didn't know why things worked
     \end{itemize}
   \end{frame}
 \end{document}
