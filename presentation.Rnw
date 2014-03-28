@@ -7,6 +7,29 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
   \maketitle
+  
+  \begin{frame}{Introduction}
+    \begin{center}
+      What proportion of the population will\\
+      \emph{survive past a given time}?
+    \end{center}
+  \end{frame}
+  
+  % http://rbakker.myweb.uga.edu/pols8501/OxfordOneNotes.pdf
+  \begin{frame}{Applications}
+    \begin{itemize}
+      \item Medical -- How does flu survival differ between countries?
+      \item Sociology -- What kind of strikes last more than 3 days?
+      \item Engineering -- How long do different F1 tyres last?
+      \item Economics -- What affect unemployment duration?
+      \item Politics -- How long are civil wars? peaceful times?
+      \item Actuarial Science -- How long do people live in cities?
+    \end{itemize}
+  \end{frame}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Old Stuff 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   %%% Introduction
   \begin{frame}{Sounds cool\ldots but what is it?}
