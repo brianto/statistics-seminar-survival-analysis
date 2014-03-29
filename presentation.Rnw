@@ -7,6 +7,11 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
   \maketitle
+  
+<<echo=FALSE>>=
+library(ggplot2)
+library(survival)
+@
 
 % http://www.nytimes.com/2011/08/13/health/13meier.html
 \begin{frame}{Introduction}
@@ -44,8 +49,34 @@
 \end{frame}
 
 \begin{frame}{Data Collection Issues}
-<<example-timeline, echo=FALSE, fig=TRUE>>=
+<<example-timeline, echo=FALSE, fig=TRUE, width=5, height=4>>=
+timeline <- read.csv('example-timeline.csv', header=TRUE, row.names=1)
 
+ggplot(timeline) +
+  xlab('time') +
+  ylab('observation') +
+  labs(
+    colour = "Observation",
+    shape = "Event Occured?")+
+  geom_segment(aes(
+    colour = rownames(timeline),
+    x = start,
+    xend = end,
+    y = rownames(timeline),
+    yend = rownames(timeline))) +
+  geom_point(aes(
+    colour = rownames(timeline),
+    x = start,
+    y = rownames(timeline)), size = 4, title="asdf") +
+  geom_point(aes(
+    colour = rownames(timeline),
+    shape = event,
+    x = end,
+    y = rownames(timeline)), size = 4) +
+  geom_vline(
+    xintercept = 6,
+    colour = 'red',
+    linetype = 'longdash')
 @
 \end{frame}
 

@@ -1,0 +1,5 @@
+,start,end,event
+long,1,5,TRUE
+short,2,4,TRUE
+right,3,7,FALSE
+other,3,5,FALSE
