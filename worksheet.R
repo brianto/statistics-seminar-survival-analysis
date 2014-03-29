@@ -7,4 +7,6 @@ timeline <- data.frame(start = offsets, end = ends, event = event)
 # Study ends at t = 7
 survival <- survfit(Surv(start, end, event) ~ 1, data = timeline)
 
-timeline.disp <- with(timeline, )
+timeline.plot <-
+  ggplot(timeline) +
+  geom_segment(aes(x = start, xend = end, y = rownames(timeline), yend = rownames(timeline)))

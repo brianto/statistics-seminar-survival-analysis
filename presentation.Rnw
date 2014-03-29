@@ -7,86 +7,88 @@
 \begin{document}
 \SweaveOpts{concordance=TRUE}
   \maketitle
-  
-  % http://www.nytimes.com/2011/08/13/health/13meier.html
-  \begin{frame}{Introduction}
-    \begin{center}
-      What proportion of the population will\\
-      \emph{survive past a given time}?
-    \end{center}
-    
-    \vspace{0.2in}
-    \pause
-    
-    \begin{center}
-      We are measuring the \emph{time to event}
-    \end{center}
-    
-    \vspace{0.2in}
-    \pause
-    
-    \begin{center}
-      How do flu durations differ between countries?
-    \end{center}
-  \end{frame}
-  
-  % http://rbakker.myweb.uga.edu/pols8501/OxfordOneNotes.pdf
-  \begin{frame}{Applications}
-    \begin{itemize}
-      % Event History Analysis
-      \item Sociology -- What kind of strikes last more than 3 days?
-      % Reliability Analysis
-      \item Engineering -- How long do different F1 tyres last?
-      % Duration Analysis
-      \item Economics -- What affect unemployment duration?
-      \item Politics -- How long are civil wars? peaceful times?
-    \end{itemize}
-  \end{frame}
-  
-  \begin{frame}{Data Collection Issues}
-  
-  \end{frame}
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % Old Stuff 
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  %%% Introduction
-  \begin{frame}{Sounds cool\ldots but what is it?}
-    \begin{itemize}
-      \item What proportion will ``survive'' past a certain time?
-      % Event History Analysis (sociology):
-      %   Which kind of strikes last more than 3 days?
-      \item Of those that ``survive,'' what is their failure or death rate?
-      % Reliability Analysis (engineering):
-      %   How long do different types of F1 tyres last?
-      \item What factors affect how individuals ``survive''?
-      % Duration Modeling (economics):
-      %   How do different factors affect unemployment duration?
-    \end{itemize}
-    
-    % also: political careers, earthquakes, medical, 
-  \end{frame}
+% http://www.nytimes.com/2011/08/13/health/13meier.html
+\begin{frame}{Introduction}
+  \begin{center}
+    What proportion of the population will\\
+    \emph{survive past a given time}?
+  \end{center}
+  
+  \vspace{0.2in}
+  \pause
+  
+  \begin{center}
+    We are measuring the \emph{time to event}
+  \end{center}
+  
+  \vspace{0.2in}
+  \pause
+  
+  \begin{center}
+    How do flu durations differ between countries?
+  \end{center}
+\end{frame}
 
-  %%% History
-  %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
-  %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
-  \begin{frame}{How did this magic happen?}
-    \begin{itemize}
-      \item Analyze actuarial data
-      % for mortality tables, very informal
-      \item Became a discipline in WWII
-      % interest reliability of equipment
-      % spurred on by spike in demands for reliability, quality
-      \item Medical field drove much of survival analysis
-      % b/c studies do not need all subjects at the start of the study (async)
-      %   ...handles subjects that quit, cannot follow-up, or die of different event
-      %   (handles incomplete data)
-      \item Kicked off with Kaplan-Meier estimator
-      % http://www.jehps.net/juin2009/Aalenetal.pdf
-      % raises new questions: how to compare survival curves?
-      % prop hazards resolved covariates problem
-      % application was ahead of theory, didn't know why things worked
-    \end{itemize}
-  \end{frame}
+% http://rbakker.myweb.uga.edu/pols8501/OxfordOneNotes.pdf
+\begin{frame}{Applications}
+  \begin{itemize}
+    % Event History Analysis
+    \item Sociology -- What kind of strikes last more than 3 days?
+    % Reliability Analysis
+    \item Engineering -- How long do different F1 tyres last?
+    % Duration Analysis
+    \item Economics -- What affect unemployment duration?
+    \item Politics -- How long are civil wars? peaceful times?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Data Collection Issues}
+<<example-timeline, echo=FALSE, fig=TRUE>>=
+
+@
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Old Stuff 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Introduction
+\begin{frame}{Sounds cool\ldots but what is it?}
+  \begin{itemize}
+    \item What proportion will ``survive'' past a certain time?
+    % Event History Analysis (sociology):
+    %   Which kind of strikes last more than 3 days?
+    \item Of those that ``survive,'' what is their failure or death rate?
+    % Reliability Analysis (engineering):
+    %   How long do different types of F1 tyres last?
+    \item What factors affect how individuals ``survive''?
+    % Duration Modeling (economics):
+    %   How do different factors affect unemployment duration?
+  \end{itemize}
+  
+  % also: political careers, earthquakes, medical, 
+\end{frame}
+
+%%% History
+%%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
+%%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
+\begin{frame}{How did this magic happen?}
+  \begin{itemize}
+    \item Analyze actuarial data
+    % for mortality tables, very informal
+    \item Became a discipline in WWII
+    % interest reliability of equipment
+    % spurred on by spike in demands for reliability, quality
+    \item Medical field drove much of survival analysis
+    % b/c studies do not need all subjects at the start of the study (async)
+    %   ...handles subjects that quit, cannot follow-up, or die of different event
+    %   (handles incomplete data)
+    \item Kicked off with Kaplan-Meier estimator
+    % http://www.jehps.net/juin2009/Aalenetal.pdf
+    % raises new questions: how to compare survival curves?
+    % prop hazards resolved covariates problem
+    % application was ahead of theory, didn't know why things worked
+  \end{itemize}
+\end{frame}
 \end{document}
