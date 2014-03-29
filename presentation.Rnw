@@ -8,23 +8,43 @@
 \SweaveOpts{concordance=TRUE}
   \maketitle
   
+  % http://www.nytimes.com/2011/08/13/health/13meier.html
   \begin{frame}{Introduction}
     \begin{center}
       What proportion of the population will\\
       \emph{survive past a given time}?
+    \end{center}
+    
+    \vspace{0.2in}
+    \pause
+    
+    \begin{center}
+      We are measuring the \emph{time to event}
+    \end{center}
+    
+    \vspace{0.2in}
+    \pause
+    
+    \begin{center}
+      How do flu durations differ between countries?
     \end{center}
   \end{frame}
   
   % http://rbakker.myweb.uga.edu/pols8501/OxfordOneNotes.pdf
   \begin{frame}{Applications}
     \begin{itemize}
-      \item Medical -- How does flu survival differ between countries?
+      % Event History Analysis
       \item Sociology -- What kind of strikes last more than 3 days?
+      % Reliability Analysis
       \item Engineering -- How long do different F1 tyres last?
+      % Duration Analysis
       \item Economics -- What affect unemployment duration?
       \item Politics -- How long are civil wars? peaceful times?
-      \item Actuarial Science -- How long do people live in cities?
     \end{itemize}
+  \end{frame}
+  
+  \begin{frame}{Data Collection Issues}
+  
   \end{frame}
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
