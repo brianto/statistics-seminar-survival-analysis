@@ -76,6 +76,25 @@ ggplot(timeline) +
 @
 \end{frame}
 
+\begin{frame}{Descriptors}
+Assume $f(t)$ is the instantaneous failure rate
+
+\vspace{0.2in}
+
+\begin{tabular}{lllcc}
+Survival
+  & $P(\mbox{no event in } t_i < t)$
+  & $S(t)$ & = & $\int^{t}_{0} f(x)$ \\
+Hazard
+  & $P(\mbox{no event until } t)$
+  & $\lambda(t)$ & = & $^{f(t)} / _{S(t)}$ \\
+Cum. \\ Hazard
+  & $P(\mbox{fail @ t } | \mbox{ survived until t})$
+  & $\Lambda(t)$ & = & $\int^{t}_{0} \lambda(t) dt$ \\
+\end{tabular}
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Old Stuff 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
