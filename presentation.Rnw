@@ -66,10 +66,6 @@ ggplot(timeline) +
     yend = rownames(timeline))) +
   geom_point(aes(
     colour = rownames(timeline),
-    x = start,
-    y = rownames(timeline)), size = 4, title="asdf") +
-  geom_point(aes(
-    colour = rownames(timeline),
     shape = event,
     x = end,
     y = rownames(timeline)), size = 4) +
