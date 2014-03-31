@@ -87,27 +87,26 @@ ggplot(timeline) +
 \end{frame}
 
 \begin{frame}{Descriptors}
-Assume $f(t)$ is the instantaneous failure rate
+Assume $f(t)$ is the instantaneous probability of the event occurring.
 
 \vspace{0.5in}
 
-% Hazard stuff is wrong
 \begin{tabular}{lllcc}
 Survival
-  & $P(\mbox{no event in } t_i < t)$
-  & $S(t)$ & = & $\int^{t}_{0} f(x)$ \\
+  & $P(\mbox{no event before } t)$
+  & $S(t)$ & = & $1 - \int^{t}_{0} f(x)$ \\
 Hazard
-  & $P(\mbox{no event until } t)$
+  & $OR(\mbox{no event until } t)$
   & $\lambda(t)$ & = & $^{f(t)} / _{S(t)}$ \\
-Cum. \\ Hazard
-  & E()
+Cumulative \\ Hazard
+  & $OR(\mbox{event before } t)$
   & $\Lambda(t)$ & = & $\int^{t}_{0} \lambda(t) dt$ \\
 \end{tabular}
 \end{frame}
 
 \begin{frame}{Descriptors}
 \begin{tabular}{lcc}
-  & independent & conditional \\
+  & probability & odds ratio \\
   instantaneous & $f(t)$ & $\lambda(t)$ \\
   cumulative & $S(t)$ & $\Lambda(t)$
 \end{tabular}
