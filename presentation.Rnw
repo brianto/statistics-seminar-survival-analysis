@@ -11,6 +11,13 @@
 <<echo=FALSE>>=
 library(ggplot2)
 library(survival)
+library(KMsurv) # survival data sets
+library(GGally) # survival curve support for ggplot2
+
+data(bfeed)
+
+# FDA recommends 6 months of breastfeeding ~ 27 weeks
+bfeed.short <- subset(bfeed, duration < 32)
 @
 
 % http://www.nytimes.com/2011/08/13/health/13meier.html
@@ -49,10 +56,12 @@ library(survival)
 \end{frame}
 
 \begin{frame}{Data Collection Issues}
-<<example-timeline, echo=FALSE, fig=TRUE, width=5, height=4>>=
+\begin{center}
+<<example-timeline, echo=FALSE, fig=TRUE, height=4, width=6>>=
 timeline <- read.csv('example-timeline.csv', header=TRUE, row.names=1)
 
 ggplot(timeline) +
+  ggtitle('Example Event Timeline') +
   xlab('time') +
   ylab('observation') +
   labs(
@@ -74,13 +83,15 @@ ggplot(timeline) +
     colour = 'red',
     linetype = 'longdash')
 @
+\end{center}
 \end{frame}
 
 \begin{frame}{Descriptors}
 Assume $f(t)$ is the instantaneous failure rate
 
-\vspace{0.2in}
+\vspace{0.5in}
 
+% Hazard stuff is wrong
 \begin{tabular}{lllcc}
 Survival
   & $P(\mbox{no event in } t_i < t)$
@@ -89,10 +100,46 @@ Hazard
   & $P(\mbox{no event until } t)$
   & $\lambda(t)$ & = & $^{f(t)} / _{S(t)}$ \\
 Cum. \\ Hazard
-  & $P(\mbox{fail @ t } | \mbox{ survived until t})$
+  & E()
   & $\Lambda(t)$ & = & $\int^{t}_{0} \lambda(t) dt$ \\
 \end{tabular}
+\end{frame}
 
+\begin{frame}{Descriptors}
+\begin{tabular}{lcc}
+  & independent & conditional \\
+  instantaneous & $f(t)$ & $\lambda(t)$ \\
+  cumulative & $S(t)$ & $\Lambda(t)$
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+<<bfeed-plain, echo=FALSE, fig=TRUE, height=4, width=6>>=
+bfeed.fit <- survfit(Surv(duration, delta) ~ 1, data = bfeed.short)
+ggsurv(bfeed.fit) +
+  ggtitle('Breast Feeding Duration') +
+  xlab('Duration in Weeks') +
+  ylab('Survival') +
+  geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+@
+\end{center}
+\end{frame}
+
+\begin{frame}{Models}
+(Cox) Proportional Hazards Model
+
+$$\lambda(t | \mathbf{x}) = \lambda_{0}(t) \exp \left( \mathbf{x' \beta} \right)$$
+
+Accelerated Failure Time Model
+
+$$\log T = \mathbf{x' \beta} + \mathbf{\epsilon}$$
+
+Exponential/Weibull Model
+
+$$\lambda(t, \mathbf{x}) = \lambda_{0} \exp \left( \mathbf{x' \beta} \right)$$
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
