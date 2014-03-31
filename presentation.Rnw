@@ -57,8 +57,8 @@ bfeed.short <- subset(bfeed, duration < 32)
 
 \begin{frame}{Data Collection Issues}
 \begin{center}
-<<example-timeline, echo=FALSE, fig=TRUE, height=4, width=6>>=
-timeline <- read.csv('example-timeline.csv', header=TRUE, row.names=1)
+<<example-timeline, echo=FALSE, fig=TRUE, height=4>>=
+timeline <- read.csv('example-timeline.csv', header = TRUE, row.names = 1)
 
 ggplot(timeline) +
   ggtitle('Example Event Timeline') +
@@ -114,13 +114,41 @@ Cumulative \\ Hazard
 
 \begin{frame}{Example}
 \begin{center}
-<<bfeed-plain, echo=FALSE, fig=TRUE, height=4, width=6>>=
+<<bfeed-survival, echo=FALSE, fig=TRUE, height=4>>=
 bfeed.fit <- survfit(Surv(duration, delta) ~ 1, data = bfeed.short)
 ggsurv(bfeed.fit) +
   ggtitle('Breast Feeding Duration') +
   xlab('Duration in Weeks') +
   ylab('Survival') +
   geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+@
+\end{center}
+\end{frame}
+
+\begin{frame}{Example}
+\begin{center}
+<<bfeed-hazard, echo=FALSE, fig=TRUE, height=4>>=
+# bfeed.haz <- basehaz(coxph(Surv(duration, delta) ~ 1, data = bfeed.short))
+bfeed.haz <- with(bfeed.fit, -log(data.frame(
+  hazard = surv, # haz = -log(surv)
+  upper = upper,
+  lower = lower)))
+bfeed.haz$week <- as.numeric(rownames(bfeed.haz))
+
+ggplot(bfeed.haz, aes(x = week)) +
+  geom_step(aes(y = hazard)) +
+  geom_step(aes(y = lower),
+    colour = 'black',
+    linetype = 'dashed') +
+  geom_step(aes(y = upper),
+    colour = 'black',
+    linetype = 'dashed') +
+  ggtitle('Breast Feeding Duration') +
+  xlab('Duration in Weeks') +
+  ylab('Cumulative Hazard Ratio') +
+  geom_vline(aes(xintercept = 25),
     colour = 'red',
     linetype = 'longdash')
 @
