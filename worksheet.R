@@ -1,32 +1,35 @@
-timeline <- read.csv('example-timeline.csv', header=TRUE, row.names=1)
+ws <- read.csv('worksheet.csv', header = TRUE)
+ws$id <- sprintf('%02d', 1:nrow(ws))
 
-# Study ends at t = 7
-survival <- survfit(Surv(start, end, event) ~ 1, data = timeline)
-
-timeline.plot <- ggplot(timeline) +
+ws.rawdisp <- ggplot(ws, aes(y = id, yend = id, colour = event)) +
+  ggtitle('Event Timeline') +
   xlab('time') +
   ylab('observation') +
-  labs(
-    colour = "Observation",
-    shape = "Event Occured?")+
   geom_segment(aes(
-    colour = rownames(timeline),
     x = start,
     xend = end,
-    y = rownames(timeline),
-    yend = rownames(timeline))) +
+    order = id)) +
+  geom_vline(aes(
+    xintercept = max(end)), colour = 'red', linetype = 'longdash') +
   geom_point(aes(
-    colour = rownames(timeline),
-    x = start,
-    y = rownames(timeline)), size = 4, title="asdf") +
-  geom_point(aes(
-    colour = rownames(timeline),
-    shape = event,
-    x = end,
-    y = rownames(timeline)), size = 4) +
-  geom_vline(
-    xintercept = 6,
-    colour = 'red',
-    linetype = 'longdash')
+    x = end), size = 4)
 
-timeline.plot
+ws.durationdisp <- ggplot(ws, aes(y = id, yend = id, colour = event)) +
+  ggtitle('Event Duration') +
+  xlab('duration') +
+  ylab('observation') +
+  geom_segment(aes(
+    x = 0,
+    xend = duration,
+    order = id)) +
+  geom_point(aes(
+    x = duration), size = 4)
+
+ggblank <- ggplot(data.frame()) + geom_point()
+
+ans.failure <- ggblank +
+  xlim(0, max(ws$duration)) +
+  ylim(0, 1) +
+  scale_y_continuous(
+    breaks = 0:9 / 9,
+    minor_breaks = 0:18 / 18)

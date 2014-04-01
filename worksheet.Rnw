@@ -1,12 +1,86 @@
 \documentclass[10pt]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{tabularx}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
+<<echo = FALSE>>=
+library(ggplot2)
+library(gridExtra)
+ws <- read.csv('worksheet.csv', header = TRUE)
+ws$id <- sprintf('%02d', 1:nrow(ws))
 
-\begin{tabular}{c||c|c||c|c||c}
-\\
-$t$ & $e$ & $r$ & $P_d(t) = \frac{e}{r}$ & $P_s(t) = 1 - \frac{e}{r}$ & $P_s(t < T)$ \\
-\\
-\end{tabular}
+ggblank <- ggplot(data.frame()) + geom_point()
+@
 
+\textbf{Scenario}
+% TODO
+
+\begin{center}
+<<ws-raw, echo = FALSE, fig = TRUE, height = 2.5>>=
+ggplot(ws, aes(y = id, yend = id, colour = event)) +
+  ggtitle('Event Timeline') +
+  xlab('time') +
+  ylab('observation') +
+  geom_segment(aes(
+    x = start,
+    xend = end,
+    order = id)) +
+  geom_vline(aes(
+    xintercept = max(end)), colour = 'red', linetype = 'longdash') +
+  geom_point(aes(
+    x = end), size = 2)
+@
+\end{center}
+
+\begin{center}
+<<ws-duration, echo = FALSE, fig = TRUE, height = 2.5>>=
+ggplot(ws, aes(y = id, yend = id, colour = event)) +
+  ggtitle('Event Duration') +
+  xlab('duration') +
+  ylab('observation') +
+  geom_segment(aes(
+    x = 0,
+    xend = duration,
+    order = id)) +
+  geom_point(aes(
+    x = duration), size = 2)
+@
+\end{center}
+
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|} \hline
+$t_i$ & $n_i$ & $d_i$ & $c_i$ & $\frac{n_i - d_i}{n_i}$ & $\hat S(t)$ \\ \hline
+\large
+0 & 15    & 0     & 0     & 0     & 1 \\ \hline 
+1 & \quad & \quad & \quad & \quad & \quad \\ \hline
+2 & \quad & \quad & \quad & \quad & \quad \\ \hline
+3 & \quad & \quad & \quad & \quad & \quad \\ \hline
+4 & \quad & \quad & \quad & \quad & \quad \\ \hline
+\end{tabularx}
+\normalsize
+
+\begin{center}
+<<empty-failure, echo = FALSE, fig = TRUE, height = 2>>=
+ggempty.template <- ggblank +
+  xlab('duration') +
+  ylab('probability') +
+  xlim(0, max(ws$duration))
+
+ggempty.failure <- ggempty.template +
+  ggtitle('Failure Distribution f(t)') +
+  scale_y_continuous(
+    limits = c(0, 1),
+    breaks = 0:6 / 6,
+    labels = c('0', sprintf('%d/6', 1:5), '1'))
+
+ggempty.survival <- ggempty.template +
+  ggtitle('Survival Function S(t)') +
+  scale_y_continuous(
+    limits = c(0, 1),
+    breaks = 0:9 / 9,
+    labels = c('0', sprintf('%d/9', 1:8), '1'))
+
+grid.arrange(ggempty.failure, ggempty.survival, ncol = 2)
+@
+\end{center}
 \end{document}

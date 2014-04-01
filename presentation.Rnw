@@ -155,6 +155,24 @@ ggplot(bfeed.haz, aes(x = week)) +
 \end{center}
 \end{frame}
 
+\begin{frame}{Estimators}
+Kaplan-Meier Max Likelihood Estimator for $\hat S(t)$
+
+\vspace{0.2in}
+\begin{tabular}{ll}
+  $t_i$ & time interval \\
+  $d_i$ & \# events in $t_i$ \\
+  $n_i$ & \# subjects \emph{at risk} in $t_i$ \\
+\end{tabular}
+
+\vspace{0.2in}
+\begin{eqnarray*}
+  \hat S(t_0) & = & 1 \\
+  \hat S(t) & = & \prod_{t_i < t} \frac{n_i - d_i}{n_i} \\
+            & = & \frac{n_i - d_i}{n_i} \cdot S(t_{i - 1}) \\
+\end{eqnarray*}
+\end{frame}
+
 \begin{frame}{Models}
 (Cox) Proportional Hazards Model
 
