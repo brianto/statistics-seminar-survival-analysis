@@ -10,18 +10,18 @@ library(gridExtra)
 ws <- read.csv('worksheet.csv', header = TRUE)
 ws$id <- sprintf('%02d', 1:nrow(ws))
 
-ggblank <- ggplot(data.frame()) + geom_point()
+ggblank <- ggplot(data.frame()) + geom_point() + theme_bw()
 @
 
-\textbf{Scenario}
-% TODO
-
 \begin{center}
-<<ws-raw, echo = FALSE, fig = TRUE, height = 2.5>>=
-ggplot(ws, aes(y = id, yend = id, colour = event)) +
+<<ws, echo = FALSE, fig = TRUE, height = 6>>=
+ggws.template <- ggplot(ws, aes(y = id, yend = id, colour = event)) +
+  theme_bw() +
+  ylab('observation')
+
+ggws.timeline <- ggws.template +
   ggtitle('Event Timeline') +
   xlab('time') +
-  ylab('observation') +
   geom_segment(aes(
     x = start,
     xend = end,
@@ -30,21 +30,18 @@ ggplot(ws, aes(y = id, yend = id, colour = event)) +
     xintercept = max(end)), colour = 'red', linetype = 'longdash') +
   geom_point(aes(
     x = end), size = 2)
-@
-\end{center}
 
-\begin{center}
-<<ws-duration, echo = FALSE, fig = TRUE, height = 2.5>>=
-ggplot(ws, aes(y = id, yend = id, colour = event)) +
+ggws.survival <- ggws.template +
   ggtitle('Event Duration') +
   xlab('duration') +
-  ylab('observation') +
   geom_segment(aes(
     x = 0,
     xend = duration,
     order = id)) +
   geom_point(aes(
     x = duration), size = 2)
+
+grid.arrange(ggws.timeline, ggws.survival, nrow = 2)
 @
 \end{center}
 
@@ -60,7 +57,7 @@ $t_i$ & $n_i$ & $d_i$ & $c_i$ & $\frac{n_i - d_i}{n_i}$ & $\hat S(t)$ \\ \hline
 \normalsize
 
 \begin{center}
-<<empty-failure, echo = FALSE, fig = TRUE, height = 2>>=
+<<empty, echo = FALSE, fig = TRUE, height = 2>>=
 ggempty.template <- ggblank +
   xlab('duration') +
   ylab('probability') +
