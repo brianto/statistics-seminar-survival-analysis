@@ -10,9 +10,11 @@
   
 <<echo=FALSE>>=
 library(ggplot2)
+library(gridExtra) # multi-plot graphs
 library(survival)
 library(KMsurv) # survival data sets
 library(GGally) # survival curve support for ggplot2
+library(xtable) # make latex tables
 
 data(bfeed)
 
@@ -114,7 +116,25 @@ Cum. Haz.
 \end{tabular}
 \end{frame}
 
-\begin{frame}{Example}
+\begin{frame}{Dataset}
+\begin{itemize}
+  \item National Labor Survey of Youth
+  \item Examined pregnancies before 1983
+  \item Restricted to first-born child
+  \item Restricted to gestation of between 20 and 45 weeks
+  \item Restricted to subjects with complete responses
+\end{itemize}
+
+\tiny
+<<bfeed-table, echo = FALSE, results = TEX>>=
+bfeed.ids <- sample(rownames(bfeed.short), size = 8)
+bfeed.table <- bfeed.short[bfeed.ids, ]
+
+print(xtable(bfeed.table))
+@
+\end{frame}
+
+\begin{frame}{Dataset}
 \begin{center}
 <<bfeed-survival, echo=FALSE, fig=TRUE, height=4>>=
 bfeed.fit <- survfit(Surv(duration, delta) ~ 1, data = bfeed.short)
@@ -129,7 +149,7 @@ ggsurv(bfeed.fit) +
 \end{center}
 \end{frame}
 
-\begin{frame}{Example}
+\begin{frame}{Dataset}
 \begin{center}
 <<bfeed-hazard, echo=FALSE, fig=TRUE, height=4>>=
 # bfeed.haz <- basehaz(coxph(Surv(duration, delta) ~ 1, data = bfeed.short))
@@ -157,6 +177,51 @@ ggplot(bfeed.haz, aes(x = week)) +
 \end{center}
 \end{frame}
 
+\begin{frame}{Dataset}
+\begin{center}
+<<bfeed-by-education, echo = FALSE, fig = TRUE, height = 4>>=
+bfeed.short$college <- bfeed.short$yschool > 12
+bfeed.fit <- survfit(Surv(duration, delta) ~ college, data = bfeed.short)
+
+ggsurv(bfeed.fit) +
+  ggtitle('Breast Feeding Duration by Education') +
+  xlab('Duration in Weeks') +
+  ylab('Survival') +
+  geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+@
+\end{center}
+\end{frame}
+
+\begin{frame}{Dataset}
+\begin{center}
+<<bfeed-by-poverty, echo = FALSE, fig = TRUE, height = 5>>=
+bfeed.fit <- survfit(Surv(duration, delta) ~ poverty, data = bfeed.short)
+
+bfeed.poverty.short <- ggsurv(bfeed.fit) +
+  ggtitle('Breast Feeding Duration by Poverty, Duration < 30 Weeks') +
+  xlab('Duration in Weeks') +
+  ylab('Survival') +
+  geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+
+bfeed.fit <- survfit(Surv(duration, delta) ~ poverty, data = subset(bfeed, duration > 20))
+
+bfeed.poverty.all <- ggsurv(bfeed.fit) +
+  ggtitle('Breast Feeding Duration by Poverty, Duration > 20 Weeks') +
+  xlab('Duration in Weeks') +
+  ylab('Survival') +
+  geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+
+grid.arrange(bfeed.poverty.short, bfeed.poverty.all, nrow = 2)
+@
+\end{center}
+\end{frame}
+
 \begin{frame}{Kaplan-Meier Max Likelihood Estimator for $\hat S(t)$}
 \begin{tabular}{ll}
   $t_i$ & time interval \\
@@ -166,10 +231,10 @@ ggplot(bfeed.haz, aes(x = week)) +
 
 \begin{eqnarray*}
                              n_{i + 1} & = & n_i - d_i - c_i \\
-                           \hat S(t_0) & = & 1 \\
-                             \hat S(t) & = & \prod_{t_i < t} \frac{n_i - d_i}{n_i} \\
+                             \hat S(0) & = & 1 \\
+                             \hat S(t) & = & \prod_{t_i = 0}^{t} \frac{n_i - d_i}{n_i} \\
                                        & = & \frac{n_i - d_i}{n_i} \cdot S(t_{i - 1}) \\
-  \mathrm{Var}\left[ \hat S(t) \right] & = & \sum_{t_i < t} \frac{d_i}{n_i (n_i - d_i)}
+  \mathrm{Var}\left[ \hat S(t) \right] & = & \sum_{t_i = 0}^{t} \frac{d_i}{n_i (n_i - d_i)}
 \end{eqnarray*}
 \end{frame}
 
