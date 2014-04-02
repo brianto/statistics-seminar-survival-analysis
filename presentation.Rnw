@@ -157,10 +157,7 @@ ggplot(bfeed.haz, aes(x = week)) +
 \end{center}
 \end{frame}
 
-\begin{frame}{Estimators}
-Kaplan-Meier Max Likelihood Estimator for $\hat S(t)$
-
-\vspace{0.2in}
+\begin{frame}{Kaplan-Meier Max Likelihood Estimator for $\hat S(t)$}
 \begin{tabular}{ll}
   $t_i$ & time interval \\
   $d_i$ & \# events in $t_i$ \\
@@ -168,19 +165,29 @@ Kaplan-Meier Max Likelihood Estimator for $\hat S(t)$
 \end{tabular}
 
 \begin{eqnarray*}
-  \hat S(t_0) & = & 1 \\
-  \hat S(t)   & = & \prod_{t_i < t} \frac{n_i - d_i}{n_i} \\
-              & = & \frac{n_i - d_i}{n_i} \cdot S(t_{i - 1}) \\ \\
-    n_{i + 1} & = & n_i - d_i - c_i
+                             n_{i + 1} & = & n_i - d_i - c_i \\
+                           \hat S(t_0) & = & 1 \\
+                             \hat S(t) & = & \prod_{t_i < t} \frac{n_i - d_i}{n_i} \\
+                                       & = & \frac{n_i - d_i}{n_i} \cdot S(t_{i - 1}) \\
+  \mathrm{Var}\left[ \hat S(t) \right] & = & \sum_{t_i < t} \frac{d_i}{n_i (n_i - d_i)}
 \end{eqnarray*}
 \end{frame}
 
 \begin{frame}{Models}
 (Cox) Proportional Hazards Model
+% semi-parametric
+% hazards function given covariates (factors)
+% H_0: all \Beta_i = 0
 
 $$\lambda(t | \mathbf{x}) = \lambda_{0}(t) \exp \left( \mathbf{x' \beta} \right)$$
 
 Accelerated Failure Time Model
+% parametric, specifies log(T)
+%   exponential
+%   weibull
+%   lognormal
+%   log-log
+%   gamma
 
 $$\log T = \mathbf{x' \beta} + \mathbf{\epsilon}$$
 
