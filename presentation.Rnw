@@ -234,29 +234,34 @@ grid.arrange(bfeed.poverty.short, bfeed.poverty.all, nrow = 2)
 \end{eqnarray*}
 \end{frame}
 
-\begin{frame}{Models}
-(Cox) Proportional Hazards Model
-% semi-parametric
-% hazards function given covariates (factors)
-% H_0: all \Beta_i = 0
-
-$$\lambda(t | \mathbf{x}) = \lambda_{0}(t) \exp \left( \mathbf{x' \beta} \right)$$
-
-Accelerated Failure Time Model
-% parametric, specifies log(T)
-%   exponential
-%   weibull
-%   lognormal
-%   log-log
-%   gamma
-
-$$\log T = \mathbf{x' \beta} + \mathbf{\epsilon}$$
-
-Exponential/Weibull Model
-
-$$\lambda(t, \mathbf{x}) = \lambda_{0} \exp \left( \mathbf{x' \beta} \right)$$
+\begin{frame}{Nelson-Aalen Estimator for $H(t)$}
+\begin{eqnarray*}
+                             \hat H(0) & = & 0 \\
+                             \hat H(t) & = & \sum_{t_i = 0}^{t} \frac{d_i}{n_i} \\
+                                       & = & \frac{d_i}{n_i} + H(t_{i - 1}) \\
+  \mathrm{Var}\left[ \hat H(t) \right] & = &
+  \sum_{t_i = 0}^{t} \frac{(n_i - d_i) d_i}{(n_i - 1) n_i^2}
+\end{eqnarray*}
 \end{frame}
 
+\begin{frame}{Models}
+(Cox) Proportional Hazards Model
+% examines cumulative hazards
+% vary lambda_0: different distributions
+% eg. lambda_0 ~ constant => exponential
+% eg. lambda_0 ~ weibull => weibull
+$$\lambda(t | \mathbf{x}) = \lambda_{0}(t) \exp \left( \mathbf{x' \beta} \right)$$
+
+\vspace{0.5in}
+
+Accelerated Failure Time Model
+% examines survival time
+% vary e: different distributions
+% eg. e_i ~ normal => log-normal
+$$\log T = \mathbf{x' \beta} + \mathbf{\epsilon}$$
+\end{frame}
+
+%%% http://data.princeton.edu/wws509/notes/c7.pdf
 %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
 %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
 %%% http://www.jehps.net/juin2009/Aalenetal.pdf
