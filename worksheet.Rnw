@@ -3,6 +3,8 @@
 \usepackage{tabularx}
 \usepackage{nicefrac}
 
+\pagenumbering{gobble}
+
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 <<echo = FALSE>>=
@@ -53,7 +55,10 @@ grid.arrange(ggws.timeline, ggws.survival, nrow = 2)
 \end{center}
 
 \begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|} \hline
-$t$ & $n_i$ & $d_i$ & $c_i$ & $f(t) = \nicefrac{n_i}{d_i}$ & $1 - f(t)$ & $\hat S(t)$ \\ \hline
+$t$ & $n_i$ & $d_i$ & $c_i$ &
+  $f(t) = \nicefrac{d_i}{n_i}$ &
+  $\frac{n_i - d_i}{n_i}$ &
+  $\hat S(t)$ \\ \hline
 \large
 0 & 15    & 0     & 0     & 0     & 1     & 1     \\ \hline 
 1 & \quad & \quad & \quad & \quad & \quad & \quad \\ \hline
@@ -64,7 +69,7 @@ $t$ & $n_i$ & $d_i$ & $c_i$ & $f(t) = \nicefrac{n_i}{d_i}$ & $1 - f(t)$ & $\hat 
 \normalsize
 
 \begin{center}
-<<empty, echo = FALSE, fig = TRUE, height = 2>>=
+<<empty, echo = FALSE, fig = TRUE, height = 2.5>>=
 ggempty.template <- ggblank +
   xlab('duration') +
   ylab('probability') +
