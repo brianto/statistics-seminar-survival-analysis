@@ -16,7 +16,7 @@ ws$id <- sprintf('%02d', 1:nrow(ws))
 theme_simple <- function() {
   return(theme_bw() + theme(
     panel.grid.major = element_line(colour = 'grey'),
-    panel.grid.minor = element_line(colour = 'lightgrey')))
+    panel.grid.minor = element_line(colour = 'white')))
 }
 
 ggblank <- ggplot(data.frame()) + geom_point() + theme_simple()
@@ -31,6 +31,7 @@ ggws.template <- ggplot(ws, aes(y = id, yend = id, colour = event)) +
 ggws.timeline <- ggws.template +
   ggtitle('Event Timeline') +
   xlab('time') +
+  scale_x_continuous(breaks = 0:6) +
   geom_segment(aes(
     x = start,
     xend = end,
@@ -56,7 +57,7 @@ grid.arrange(ggws.timeline, ggws.survival, nrow = 2)
 
 \begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|} \hline
 $t$ & $n_i$ & $d_i$ & $c_i$ &
-  $f(t) = \nicefrac{d_i}{n_i}$ &
+  $\nicefrac{d_i}{n_i}$ &
   $\frac{n_i - d_i}{n_i}$ &
   $\hat S(t)$ \\ \hline
 \large
@@ -76,7 +77,7 @@ ggempty.template <- ggblank +
   xlim(0, max(ws$duration))
 
 ggempty.failure <- ggempty.template +
-  ggtitle('Failure Distribution f(t)') +
+  ggtitle('Probability of Failure') +
   scale_y_continuous(
     limits = c(0, 1),
     breaks = 0:6 / 6,
