@@ -205,8 +205,10 @@ bfeed.poverty.short <-
     colour = 'red',
     linetype = 'longdash')
 
+bfeed.tail <- bfeed
+bfeed.tail$duration <- with(bfeed.tail, ifelse(duration > 20, duration, 20))
 bfeed.poverty.all <-
-  ggsurv(survfit(Surv(duration, delta) ~ poverty, data = subset(bfeed, duration > 20))) +
+  ggsurv(survfit(Surv(duration, delta) ~ poverty, data = subset(bfeed.tail, duration > 20))) +
   ggtitle('Breast Feeding Duration by Poverty, Duration > 20 Weeks') +
   xlab('Duration in Weeks') +
   ylab('Survival') +
