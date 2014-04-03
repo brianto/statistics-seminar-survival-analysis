@@ -1,6 +1,7 @@
 \documentclass[10pt]{article}
 \usepackage[margin=0.5in]{geometry}
 \usepackage{tabularx}
+\usepackage{nicefrac}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
@@ -10,13 +11,19 @@ library(gridExtra)
 ws <- read.csv('worksheet.csv', header = TRUE)
 ws$id <- sprintf('%02d', 1:nrow(ws))
 
-ggblank <- ggplot(data.frame()) + geom_point() + theme_bw()
+theme_simple <- function() {
+  return(theme_bw() + theme(
+    panel.grid.major = element_line(colour = 'grey'),
+    panel.grid.minor = element_line(colour = 'lightgrey')))
+}
+
+ggblank <- ggplot(data.frame()) + geom_point() + theme_simple()
 @
 
 \begin{center}
 <<ws, echo = FALSE, fig = TRUE, height = 6>>=
 ggws.template <- ggplot(ws, aes(y = id, yend = id, colour = event)) +
-  theme_bw() +
+  theme_simple() +
   ylab('observation')
 
 ggws.timeline <- ggws.template +
@@ -45,14 +52,14 @@ grid.arrange(ggws.timeline, ggws.survival, nrow = 2)
 @
 \end{center}
 
-\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|} \hline
-$t_i$ & $n_i$ & $d_i$ & $c_i$ & $\frac{n_i - d_i}{n_i}$ & $\hat S(t)$ \\ \hline
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|} \hline
+$t$ & $n_i$ & $d_i$ & $c_i$ & $f(t) = \nicefrac{n_i}{d_i}$ & $1 - f(t)$ & $\hat S(t)$ \\ \hline
 \large
-0 & 15    & 0     & 0     & 1     & 1 \\ \hline 
-1 & \quad & \quad & \quad & \quad & \quad \\ \hline
-2 & \quad & \quad & \quad & \quad & \quad \\ \hline
-3 & \quad & \quad & \quad & \quad & \quad \\ \hline
-4 & \quad & \quad & \quad & \quad & \quad \\ \hline
+0 & 15    & 0     & 0     & 0     & 1     & 1     \\ \hline 
+1 & \quad & \quad & \quad & \quad & \quad & \quad \\ \hline
+2 & \quad & \quad & \quad & \quad & \quad & \quad \\ \hline
+3 & \quad & \quad & \quad & \quad & \quad & \quad \\ \hline
+4 & \quad & \quad & \quad & \quad & \quad & \quad \\ \hline
 \end{tabularx}
 \normalsize
 
