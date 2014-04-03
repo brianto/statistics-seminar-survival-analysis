@@ -261,6 +261,34 @@ Accelerated Failure Time Model
 $$\log T = \mathbf{x' \beta} + \mathbf{\epsilon}$$
 \end{frame}
 
+\begin{frame}[fragile]{Confirmatory Statistics}
+Are all the hazard curves the same?
+
+\begin{eqnarray*}
+  H_0 & : & \text{all } H_i = H_j \\
+  H_a & : & \text{some } H_i \neq H_j
+\end{eqnarray*}
+
+\scriptsize
+<<bfeed-test-correspondence>>=
+survdiff(Surv(duration, delta) ~ poverty, data = bfeed.short)
+@
+\end{frame}
+
+\begin{frame}[fragile]{Confirmatory Statistics}
+Are two survival curves the same?
+
+\begin{eqnarray*}
+  H_0 & : & H_{s \leq 12} = H_{s > 12} \\
+  H_0 & : & H_{s \leq 12} \neq H_{s > 12}
+\end{eqnarray*}
+
+\tiny
+<<bfeed-test-single>>=
+summary(coxph(Surv(duration, delta) ~ yschool > 12, data = bfeed.short))
+@
+\end{frame}
+
 %%% http://data.princeton.edu/wws509/notes/c7.pdf
 %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
 %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
