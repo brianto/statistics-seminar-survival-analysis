@@ -20,7 +20,8 @@ library(xtable) # make latex tables
 data(bfeed)
 
 # FDA recommends 6 months of breastfeeding ~ 27 weeks
-bfeed.short <- subset(bfeed, duration < 32)
+bfeed.short <- bfeed
+bfeed.short$duration <- with(bfeed.short, ifelse(duration > 36, 36, duration))
 @
 
 % http://www.nytimes.com/2011/08/13/health/13meier.html
