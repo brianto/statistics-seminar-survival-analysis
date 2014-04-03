@@ -272,7 +272,7 @@ Are all the hazard curves the same?
 
 \scriptsize
 <<bfeed-test-correspondence>>=
-survdiff(Surv(duration, delta) ~ poverty, data = bfeed.short)
+survdiff(Surv(duration, delta) ~ poverty, data = bfeed)
 @
 \end{frame}
 
@@ -286,7 +286,7 @@ Are two survival curves the same?
 
 \tiny
 <<bfeed-test-single>>=
-summary(coxph(Surv(duration, delta) ~ yschool > 12, data = bfeed.short))
+summary(coxph(Surv(duration, delta) ~ yschool > 12, data = bfeed))
 @
 \end{frame}
 
