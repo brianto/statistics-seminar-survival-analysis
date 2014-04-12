@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\title{Survival Analysis}
+\author{Brian To}
+\date{Spring 2014}
+
+\begin{document}
+  \SweaveOpts{concordance=TRUE}
+  \maketitle
+
+\section*{Introduction}
+% Objective of Paper
+% Background on Statistical Technique
+
+\section*{Methodology}
+% Overview of Technique
+% Application to this data set (variables, parameters, what “practical” questions will you attempt to answer with this analysis)
+
+\section*{Results}
+% Exploratory Analysis (“graphical”: graphs, descriptive statistics)
+% Statistical Analysis (“analytical”: hypotheses, test statistics, p-values, conclusions)
+% Validation of Assumptions (graphs and/or tests)
+
+\section*{Discussion}
+% Explain conclusions and interpretations in layman's terms.
+
+%%% References
+% List all books, journal articles and web pages used.
+
+%%% Appendices
+% Full data set.
+% Output from analyses.
+
+\end{document}
