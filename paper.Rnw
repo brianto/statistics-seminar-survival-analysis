@@ -9,15 +9,47 @@
   \maketitle
 
 \section*{Introduction}
-% Objective of Paper
 % Background on Statistical Technique
+% * Tries to answer "what proportion of the population will survive until x?"
+% * started with actuarial tables
+% * WWII - used for reliability analysis
+% * Ed Kaplan & Paul Meier developed S.A. in cancer trials
+%   + This is when S.A. took off, much interest
+%   + Developed Kaplan-Meier survival estimator
+% * Used in other fields (economics, engineering, sociology, ...)
+% Objective of Paper
+% * Guide one enoguh to be able to:
+%   + design survival studies
+%   + read survival/hazard curves
+%   + estimate kaplan-meier
+%   + use R to perform tests
 
 \section*{Methodology}
 % Overview of Technique
+% * Concepts
+%   +  Problems
+%   + Inputs
+%   + Censoring
+%     - Staggered entry into study
+%     - Something prevents event (ex. end of study)
+% * Formulas of interest
+%   + f(x), S(x), lambda(x), Lambda(x)
+%   + Kaplan-Meier estimator for S(x)
+%   + Nelson-Aalen estimator for Lambda(x)
+% * Survival models
+%   + accelerated time
+%   + proportional hazards
 % Application to this data set (variables, parameters, what “practical” questions will you attempt to answer with this analysis)
+% * National Labor Survey of Youth
+% * Examined pregnancies
+%   + Only first-born
+%   + Only gestation of 20 to 45 weeks
+%   + Only complete responses
 
 \section*{Results}
 % Exploratory Analysis (“graphical”: graphs, descriptive statistics)
+% * Survival of some college vs no college
+% * Survival by poverty (before 27 weeks, after 27 weeks)
 % Statistical Analysis (“analytical”: hypotheses, test statistics, p-values, conclusions)
 % Validation of Assumptions (graphs and/or tests)
 
