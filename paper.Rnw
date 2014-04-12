@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[twocolumn]{article}
 
 \title{Survival Analysis}
 \author{Brian To}
@@ -9,6 +9,10 @@
   \maketitle
 
 \section*{Introduction}
+
+Survival analysis is a relatively recent branch of statistics that tries to answer the question "what proportion of the population will survive until time $t$?" and similar questions. For example, "what proportion of Toyota buyers still own and use their car 10 years later?" and "what proportion of Toyota versus Ford buyers still own and use their car 10 years later?" To answer these types of questions, survival analysis focuses on measuring the \emph{duration until event}. In the car example, the measurement is the duration of ownership with use and the event is relinquishing ownership or stopping use such as in the case of selling or scraping the car.
+
+Survival analysis has roots in actuarial sciences where life tables were used in calculating insurance rates centuries ago. Only within the last century has Survival Analysis become more popular.
 % Background on Statistical Technique
 % * Tries to answer "what proportion of the population will survive until x?"
 % * started with actuarial tables
@@ -58,6 +62,10 @@
 
 %%% References
 % List all books, journal articles and web pages used.
+%%% http://data.princeton.edu/wws509/notes/c7.pdf
+%%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
+%%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
+%%% http://www.jehps.net/juin2009/Aalenetal.pdf
 
 %%% Appendices
 % Full data set.
