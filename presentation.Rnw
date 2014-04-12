@@ -20,7 +20,8 @@ library(xtable) # make latex tables
 data(bfeed)
 
 # FDA recommends 6 months of breastfeeding ~ 27 weeks
-bfeed.short <- subset(bfeed, duration < 32)
+bfeed.short <- bfeed
+bfeed.short$duration <- with(bfeed.short, ifelse(duration > 36, 36, duration))
 @
 
 % http://www.nytimes.com/2011/08/13/health/13meier.html
@@ -204,8 +205,10 @@ bfeed.poverty.short <-
     colour = 'red',
     linetype = 'longdash')
 
+bfeed.tail <- bfeed
+bfeed.tail$duration <- with(bfeed.tail, ifelse(duration > 20, duration, 20))
 bfeed.poverty.all <-
-  ggsurv(survfit(Surv(duration, delta) ~ poverty, data = subset(bfeed, duration > 20))) +
+  ggsurv(survfit(Surv(duration, delta) ~ poverty, data = subset(bfeed.tail, duration > 20))) +
   ggtitle('Breast Feeding Duration by Poverty, Duration > 20 Weeks') +
   xlab('Duration in Weeks') +
   ylab('Survival') +
@@ -234,29 +237,62 @@ grid.arrange(bfeed.poverty.short, bfeed.poverty.all, nrow = 2)
 \end{eqnarray*}
 \end{frame}
 
-\begin{frame}{Models}
-(Cox) Proportional Hazards Model
-% semi-parametric
-% hazards function given covariates (factors)
-% H_0: all \Beta_i = 0
-
-$$\lambda(t | \mathbf{x}) = \lambda_{0}(t) \exp \left( \mathbf{x' \beta} \right)$$
-
-Accelerated Failure Time Model
-% parametric, specifies log(T)
-%   exponential
-%   weibull
-%   lognormal
-%   log-log
-%   gamma
-
-$$\log T = \mathbf{x' \beta} + \mathbf{\epsilon}$$
-
-Exponential/Weibull Model
-
-$$\lambda(t, \mathbf{x}) = \lambda_{0} \exp \left( \mathbf{x' \beta} \right)$$
+\begin{frame}{Nelson-Aalen Estimator for $H(t)$}
+\begin{eqnarray*}
+                             \hat H(0) & = & 0 \\
+                             \hat H(t) & = & \sum_{t_i = 0}^{t} \frac{d_i}{n_i} \\
+                                       & = & \frac{d_i}{n_i} + H(t_{i - 1}) \\
+  \mathrm{Var}\left[ \hat H(t) \right] & = &
+  \sum_{t_i = 0}^{t} \frac{(n_i - d_i) d_i}{(n_i - 1) n_i^2}
+\end{eqnarray*}
 \end{frame}
 
+\begin{frame}{Models}
+(Cox) Proportional Hazards Model
+% examines cumulative hazards
+% vary lambda_0: different distributions
+% eg. lambda_0 ~ constant => exponential
+% eg. lambda_0 ~ weibull => weibull
+$$\lambda(t | \mathbf{x}) = \lambda_{0}(t) \exp \left( \mathbf{x' \beta} \right)$$
+
+\vspace{0.5in}
+
+Accelerated Failure Time Model
+% examines survival time
+% vary e: different distributions
+% eg. e_i ~ normal => log-normal
+$$\log T = \mathbf{x' \beta} + \mathbf{\epsilon}$$
+\end{frame}
+
+\begin{frame}[fragile]{Confirmatory Statistics}
+Are all the hazard curves the same?
+
+\begin{eqnarray*}
+  H_0 & : & \text{all } H_i = H_j \\
+  H_a & : & \text{some } H_i \neq H_j
+\end{eqnarray*}
+
+\scriptsize
+<<bfeed-test-correspondence>>=
+survdiff(Surv(duration, delta) ~ poverty, data = bfeed)
+@
+\end{frame}
+
+\begin{frame}[fragile]{Confirmatory Statistics}
+Are two survival curves the same?
+
+\begin{eqnarray*}
+  H_0 & : & H_{s \leq 12} = H_{s > 12} \\
+  H_0 & : & H_{s \leq 12} \neq H_{s > 12}
+\end{eqnarray*}
+
+\tiny
+<<bfeed-test-single>>=
+summary(coxph(Surv(duration, delta) ~ yschool > 12, data = bfeed))
+@
+\end{frame}
+
+%%% http://data.princeton.edu/wws509/notes/c7.pdf
 %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
 %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
 %%% http://www.jehps.net/juin2009/Aalenetal.pdf
