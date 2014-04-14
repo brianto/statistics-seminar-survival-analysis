@@ -12,7 +12,7 @@
 
 Survival analysis is a relatively recent branch of statistics that tries to answer the question "what proportion of the population will survive until time $t$?" and similar questions. For example, "what proportion of Toyota buyers still own and use their car 10 years later?" and "what proportion of Toyota versus Ford buyers still own and use their car 10 years later?" To answer these types of questions, survival analysis focuses on measuring the \emph{duration until event}. In the car example, the measurement is the duration of ownership with use and the event is relinquishing ownership or stopping use such as in the case of selling or scraping the car.
 
-Survival analysis has roots in actuarial sciences where life tables were used in calculating insurance rates centuries ago. Only within the last century has Survival Analysis become more popular.
+Survival analysis has roots in actuarial sciences where life tables were used in calculating insurance rates centuries ago. However, there has not been much advancement in the field until the last century. In World War II, military technology prowess did not keep up with its reliability until survival analysis was used to increase the reliability of equipment. Advances, however, were only limited to uses in the military and not embraced by the public. In the mid 1970s, Major Greenwood published a paper on cancer incidence and mortality by various types. Edward Kaplan and Paul Meier took notice of this study and developed what is known as the Kaplan-Meier estimator for the survival rate. After Kaplan and Meier published their landmark survival analysis paper, interest in the subject exploded and spread to other fields of study besides medical and engineering such as sociology and economics.
 % Background on Statistical Technique
 % * Tries to answer "what proportion of the population will survive until x?"
 % * started with actuarial tables
@@ -65,7 +65,10 @@ Survival analysis has roots in actuarial sciences where life tables were used in
 %%% http://data.princeton.edu/wws509/notes/c7.pdf
 %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
 %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
+%%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3059453/
 %%% http://www.jehps.net/juin2009/Aalenetal.pdf
+%%% www.worldofstatistics.org/files/2012/12/Stat2013.pptx
+%%% http://books.google.com/books?id=1iI5rHtCT-4C&lpg=PA112&ots=2jMXda6Zjy&dq=%22major%20greenwood%22%20cancer&pg=PA112#v=onepage&q=%22major%20greenwood%22%20cancer&f=false
 
 %%% Appendices
 % Full data set.
