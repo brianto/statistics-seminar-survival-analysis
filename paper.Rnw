@@ -1,4 +1,5 @@
 \documentclass[twocolumn]{article}
+\usepackage[margin=1in]{geometry}
 
 \title{Survival Analysis}
 \author{Brian To}
@@ -13,6 +14,8 @@
 Survival analysis is a relatively recent branch of statistics that tries to answer the question "what proportion of the population will survive until time $t$?" and similar questions. For example, "what proportion of Toyota buyers still own and use their car 10 years later?" and "what proportion of Toyota versus Ford buyers still own and use their car 10 years later?" To answer these types of questions, survival analysis focuses on measuring the \emph{duration until event}. In the car example, the measurement is the duration of ownership with use and the event is relinquishing ownership or stopping use such as in the case of selling or scraping the car.
 
 Survival analysis has roots in actuarial sciences where life tables were used in calculating insurance rates centuries ago. However, there has not been much advancement in the field until the last century. In World War II, military technology prowess did not keep up with its reliability until survival analysis was used to increase the reliability of equipment. Advances, however, were only limited to uses in the military and not embraced by the public. In the mid 1970s, Major Greenwood published a paper on cancer incidence and mortality by various types. Edward Kaplan and Paul Meier took notice of this study and developed what is known as the Kaplan-Meier estimator for the survival rate. After Kaplan and Meier published their landmark survival analysis paper, interest in the subject exploded and spread to other fields of study besides medical and engineering such as sociology and economics.
+
+The objective of this paper is to provide an introduction to survival analysis, including the design of survival studies, estimation and interpretation of survival and hazard curves, and using R to perform significance tests.
 % Background on Statistical Technique
 % * Tries to answer "what proportion of the population will survive until x?"
 % * started with actuarial tables
@@ -29,9 +32,12 @@ Survival analysis has roots in actuarial sciences where life tables were used in
 %   + use R to perform tests
 
 \section*{Methodology}
+
+\subection*{Censoring}
+Data collection steps in experiments may not yield perfect data. For instance, data for certain subjects may be missing or the subject may drop out in the middle of the study. These types of data imperfections are called "censoring" in survival analysis. There are 
 % Overview of Technique
 % * Concepts
-%   +  Problems
+%   + Problems
 %   + Inputs
 %   + Censoring
 %     - Staggered entry into study
