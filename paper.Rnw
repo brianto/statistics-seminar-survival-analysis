@@ -33,8 +33,14 @@ The objective of this paper is to provide an introduction to survival analysis, 
 
 \section*{Methodology}
 
-\subection*{Censoring}
-Data collection steps in experiments may not yield perfect data. For instance, data for certain subjects may be missing or the subject may drop out in the middle of the study. These types of data imperfections are called "censoring" in survival analysis. There are 
+\subsection*{Censoring}
+Data collection steps in experiments may not yield perfect data. For instance, data for certain subjects may be missing or the subject may drop out in the middle of the study. These types of data imperfections are called "censoring" in survival analysis. There are three types of censoring: left, right, and interval. The difference between these types of censoring is based on when the censoring occurs.
+
+Left censoring is when the subject has the event before the start of the study. For example, a study that looks at when teenagers have their first alcoholic drink after entering high school may have left-censored data if there are teenagers that have already started drinking in middle school. Left censoring typically happens when the event is hard to detect prior to the study.
+
+Right censoring is when the subject has the event after the study ends. For example, a study examining cancer survival may have right censored data if subjects survive past the end of the study. Right censoring is more common than left censoring and typically occurs in longitudinal studies or studies that allow for staggered entry to the study.
+
+Interval censoring is when the subject has the event within a time interval and the true time of event is not known. For example, a study examining the onset of sexually transmitted diseases for sex workers in third world countries may have interval censored data because determining the exact time of acquisition is impossible and acquisition can only be determined by check-ins which does not cause acquisition of STDs.
 % Overview of Technique
 % * Concepts
 %   + Problems
