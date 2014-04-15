@@ -225,6 +225,7 @@ grid.arrange(bfeed.poverty.short, bfeed.poverty.all, nrow = 2)
 \begin{tabular}{ll}
   $t_i$ & time interval \\
   $d_i$ & \# events in $t_i$ \\
+  $c_i$ & \# censored subjects in $t_i$ \\
   $n_i$ & \# subjects \emph{at risk} in $t_i$ \\
 \end{tabular}
 
