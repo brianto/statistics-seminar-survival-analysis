@@ -2,14 +2,21 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{nicefrac}
+\usepackage{tabularx}
 
 \title{Survival Analysis}
 \author{Brian To}
 \date{Spring 2014}
 
 \begin{document}
-  \SweaveOpts{concordance=TRUE}
-  \maketitle
+\SweaveOpts{concordance=TRUE}
+\maketitle
+<<echo = FALSE>>=
+library(ggplot2)
+library(gridExtra)
+ws <- read.csv('worksheet.csv', header = TRUE)
+ws$id <- sprintf('%02d', 1:nrow(ws))
+@
 
 \section*{Introduction}
 
@@ -67,7 +74,32 @@ It is important to note that $\lambda$ and $\Lambda$ are not probabilities, but 
 
 \subsection*{Estimators}
 
+Edward Kaplan and Paul Meier's landmark paper on the Kaplan-Meier estimator drove survival analysis forward since it was the first accepted estimator for $S(t)$ that also handles censored data. Recall that $S(t) = S(t - 1) \cdot (1 - f(t))$. $f(t)$ in Kaplan-Meier can be expressed as the number of events divided by the number of subjects at risk at time $t$. In other words,
 
+\[ f(t_i) =  \frac{d_i}{n_i} \]
+
+where $d_i$ represents the number of events at $t$ and $n_i$ represents the number of subjects at risk at $t$. But what happens if there are censored data points for time $t$? Since there is no actual event, it would not make sense for those points to affect the current survival. In the next interval, the number of subjects at risk $n_{i + 1}$ should be affected because those censored subjects are no longer available at $t_{i + 1}$. If we denote this quantity of censored data points as $c_i$, we may say that the number of subjects at risk in the next interval is the same as this interval, but without those that experienced the event and those that are censored. In other words,
+
+\[ n_{i + 1} = n_i - d_i - c_i \]
+
+While many software packages can easily create survival estimates, computing $\hat S(t)$ can be relatively straightforward using tables. Let's examine sample data shown as Figure \ref{fig:ws}.
+
+\begin{figure}[p]
+<<ws, echo = FALSE, fig = TRUE, height = 3>>=
+ggplot(ws, aes(y = id, yend = id, colour = event)) +
+  ggtitle('Event Duration') +
+  xlab('duration') +
+  ylab('survival') +
+  geom_segment(aes(
+    x = 0,
+    xend = duration,
+    order = id)) +
+  geom_point(aes(
+    x = duration), size = 2)
+@
+\caption{thing}
+\label{fig:ws}
+\end{figure}
 
 % Overview of Technique
 % * Concepts
