@@ -1,5 +1,7 @@
 \documentclass[twocolumn]{article}
+
 \usepackage[margin=1in]{geometry}
+\usepackage{nicefrac}
 
 \title{Survival Analysis}
 \author{Brian To}
@@ -41,6 +43,32 @@ Left censoring is when the subject has the event before the start of the study. 
 Right censoring is when the subject has the event after the study ends. For example, a study examining cancer survival may have right censored data if subjects survive past the end of the study. Right censoring is more common than left censoring and typically occurs in longitudinal studies or studies that allow for staggered entry to the study.
 
 Interval censoring is when the subject has the event within a time interval and the true time of event is not known. For example, a study examining the onset of sexually transmitted diseases for sex workers in third world countries may have interval censored data because determining the exact time of acquisition is impossible and acquisition can only be determined by check-ins which does not cause acquisition of STDs.
+
+\subsection*{Concepts}
+Assume that $f(t)$ represents the probability of the event occurring at time $t$. Each $f(t)$ is independent of other $f(t)$ values. For example, $f(2)$ has no relation to $f(3)$. $f$'s shape may be defined some concrete function, but future values may not be computed from previous values, such as $f(t) = 0.7 f(t - 1)$.
+
+The survival function $S(t)$ denotes the probability that a subject survives from $t_0$ to $t$. For a subject to survive in this interval, it must not have an event in any subinterval $t_0$, $t_1$, $t_2$, \ldots, $t$. Since the probability of not having an event in a interval is $1 - f(t)$, we can represent $S(t)$ as
+
+\[ S(t) = \prod_{t_i = 0}^{t} 1 - f(t) \]
+
+More intuitively, we can say that the probability of surviving $t$ is the probability of surviving until $t$ and surviving $t$ itself. In other words
+
+\[ S(t) = S(t - 1) \cdot (1 - f(t)) \]
+
+The hazard function $\lambda(t)$ represents the odds of surviving until time $t$ and then experiencing an event in time $t$. This probability can be written as $P(\mbox{event} | \mbox{survive until } t)$. We may write this conditional probability as
+
+\[ \lambda(t) = \nicefrac{f(t)}{S(t)} \]
+
+The cumulative hazard function $\Lambda(t)$ represents the odds of experiencing an event in the interval until $t$. In other words, it is th cumulative risk of the event until $t$. A way to express this is the sum of risk for every interval until $t$. More succintly,
+
+\[ \Lambda(t) = \sum_{t_i = 0}^{t} \lambda(t) \]
+
+It is important to note that $\lambda$ and $\Lambda$ are not probabilities, but \emph{odds ratios}. The range of these functions are not $[0, 1]$ but $[0, \infty)$.
+
+\subsection*{Estimators}
+
+
+
 % Overview of Technique
 % * Concepts
 %   + Problems
