@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{nicefrac}
 \usepackage{tabularx}
+\usepackage{graphicx}
 
 \title{Survival Analysis}
 \author{Brian To}
@@ -82,14 +83,15 @@ where $d_i$ represents the number of events at $t$ and $n_i$ represents the numb
 
 \[ n_{i + 1} = n_i - d_i - c_i \]
 
-While many software packages can easily create survival estimates, computing $\hat S(t)$ can be relatively straightforward using tables. Let's examine sample data shown as Figure \ref{fig:ws}.
+While many software packages can easily create survival estimates, computing $\hat S(t)$ can be straightforward using tables. Let's examine sample data shown below.
 
-\begin{figure}[p]
-<<ws, echo = FALSE, fig = TRUE, height = 3>>=
+<<ws, echo = FALSE, fig = TRUE, include = FALSE>>=
 ggplot(ws, aes(y = id, yend = id, colour = event)) +
+  theme(legend.position = "none") +
   ggtitle('Event Duration') +
   xlab('duration') +
   ylab('survival') +
+  guides(fill = FALSE) +
   geom_segment(aes(
     x = 0,
     xend = duration,
@@ -97,9 +99,24 @@ ggplot(ws, aes(y = id, yend = id, colour = event)) +
   geom_point(aes(
     x = duration), size = 2)
 @
-\caption{thing}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[keepaspectratio=true, width=3in]{paper-ws.pdf}
+\end{center}
+\caption{Sample Survival Data}
 \label{fig:ws}
 \end{figure}
+
+In this sample data, teal endpoints represent an event observation and red endpoints repreesnt a censored observation. We begin by creating a table with the following quantities: $n_i$, $d_i$, $c_i$, $\nicefrac{d_i}{n_i}$, $\nicefrac{n_i - d_i}{n_i}$, and $\hat S(t_i)$. Afterwards, we may perform the following algorithm:
+
+\begin{enumerate}
+  \item \emph{Calculate $n_i$.} $n_i$ is the total number of subjects that are at risk in this interval. If a vertical line is drawn at $t_i$, $n_i$ is the total number of duration lines the vertical line touches. This includes subjects that either have an event or are censored in this interval. Equivalently, you may also calculate $n_i$ by taking $n_{i - 1}$ and subtracting the number of events and censors in the previous duration.
+  \item \emph{Calculate $d_i$.} $d_i$ is the number of teal duration endings at $t_i$.
+  \item \emph{Calculate $c_i$.} $c_i$ is the number of red duration endings at $t_i$.
+  \item \emph{Calculate $\nicefrac{d_i}{n_i}$ and $\nicefrac{n_i - d_i}{d_i}$} where the former represents the failure rate $f(t_i)$ and the latter represents the probability of not failing at that specific interval. Only the latter is used to calculate $\hat S(t_i)$.
+  \item \emph{Calculate $S(t_i)$.} Recall that $S(t_i) = \nicefrac{n_i - d_i}{d_i} \cdot S(t_{i - 1})$. If $S(t_{i - 1})$ is not defined, use 1 indicating that everyone survived the imaginary duration.
+  \item \emph{Repeat until $n_i$ is zero.}
+\end{enumerate}
 
 % Overview of Technique
 % * Concepts
