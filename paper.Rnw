@@ -142,6 +142,9 @@ print(xtable(ws.table),
   })
 @
 
+The values of $\hat S_i$ in the table give the estimates for the Kaplan-Meier survival estimator.
+
+Similarly, the cumulative risk estimator $\hat \Lambda{t}$ can be estimated given our sample data. An estimate for the cumulative risk is the cumulative sum of $\frac{n - d}{n}$ which can be easily computed from the table above. This is called the Nelson-Aalen estimator.
 % Overview of Technique
 % * Concepts
 %   + Problems
