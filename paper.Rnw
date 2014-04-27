@@ -15,6 +15,8 @@
 <<echo = FALSE>>=
 library(ggplot2)
 library(gridExtra)
+library(survival)
+library(xtable)
 ws <- read.csv('worksheet.csv', header = TRUE)
 ws$id <- sprintf('%02d', 1:nrow(ws))
 @
@@ -117,6 +119,28 @@ In this sample data, teal endpoints represent an event observation and red endpo
   \item \emph{Calculate $S(t_i)$.} Recall that $S(t_i) = \nicefrac{n_i - d_i}{d_i} \cdot S(t_{i - 1})$. If $S(t_{i - 1})$ is not defined, use 1 indicating that everyone survived the imaginary duration.
   \item \emph{Repeat until $n_i$ is zero.}
 \end{enumerate}
+
+Below is the result of this algorithm on the sample.
+
+<<ws-table, echo = FALSE, results = tex>>=
+ws.fit <- survfit(Surv(duration, event) ~ 1, data = ws)
+
+ws.table <- with(ws.fit, data.frame(
+  n = n.risk,
+  d = n.event,
+  c = n.censor,
+  f = n.event / n.risk,
+  nf = 1 - (n.event / n.risk),
+  s = surv))
+
+colnames(ws.table) <-
+  c("$n_i$", "$d_i$", "$c_i$", "$\\nicefrac{d}{n}$", "$\\frac{n-d}{n}$", "$\\hat S_i$")
+
+print(xtable(ws.table),
+  sanitize.text.function = function(x) {
+    return(x)
+  })
+@
 
 % Overview of Technique
 % * Concepts
