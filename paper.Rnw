@@ -241,7 +241,18 @@ The red line represents the survival rate for women with a high school diploma o
 
 In this instance, women with some college education tend to breastfeed children longer than women with a high school education or less. That is \emph{not} to say \emph{every} woman with a high school diploma or less breast feeds less than \emph{every} woman with some college education. Nor can we say that having some college education causes longer breastfeeding durations.
 
-% TODO test
+We may verify this casual relation by performing a log-rank test assuming $\alpha = 0.05$ and where the hypotheses are:
+
+\[ H_0: \Lambda_{ys \leq 12} = \Lambda_{ys > 12} \]
+\[ H_a: \Lambda_{ys \leq 12} \neq \Lambda_{ys > 12} \]
+
+\scriptsize
+<<bfeed-education-test, echo = FALSE>>=
+survdiff(Surv(duration, delta) ~ yschool > 12, data = bfeed.short)
+@
+\normalsize
+
+The $p$ value from the log-rank test is lower than our $\alpha$, which means we can reject $H_0$ that having some college education makes a difference in breastfeeding durations and support our casual conclusion that having some college education indicates longer breastfeeding durations.
 
 \begin{figure}[h]
 \begin{center}
