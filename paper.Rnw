@@ -16,6 +16,7 @@
 library(ggplot2)
 library(gridExtra)
 library(survival)
+library(GGally)
 library(KMsurv)
 library(xtable)
 
@@ -23,6 +24,9 @@ ws <- read.csv('worksheet.csv', header = TRUE)
 ws$id <- sprintf('%02d', 1:nrow(ws))
 
 data(bfeed)
+
+bfeed.short <- bfeed
+bfeed.short$duration <- with(bfeed.short, ifelse(duration > 36, 36, duration))
 @
 
 \section*{Introduction}
@@ -178,9 +182,11 @@ TODO
 
 We will examine data from the National Labor Survey of Youth. The data set looks at the relation between the duration of breast feeding and various factors. This data set examines pregnancies before 1983 and includes only complete data points (no data missing). According to the original researchers, the year restriction is put in place to mitigate ``recall problems.'' Also, this data is restricted to first-born children and to children whose gestation is between 20 and 45 weeks. With these restrictions, there are a total of 927 data points.
 
-Breastfeeding duration is measured in weeks. The study tracks the following factors: race (white, black, other), poverty, somking, drinks alcohol, age of mother, mother's year of birth, mother's education level, and if the mother has prenatal car after the 3rd month of pregnancy.
+Breastfeeding duration is measured in weeks. An event (delta) is defined as full weaning of the infant from breast milk. The study tracks the following factors: race (white, black, other), poverty, somking, drinks alcohol, age of mother, mother's year of birth, mother's education level, and if the mother has prenatal car after the 3rd month of pregnancy.
 
 Race is denoted as the integers 1 to 3 where 1 represents white, 2 represents black, and 3 represents other. Poverty, smoking, drinks alcohol, and prenatal care are denoted as booleans where 1 represents a ``yes'' to the category and 0 represents ``no''. For example, a 1 in the smoking category means the mother is a smoker. Age of mother is in years. The mother's year of birth is represented as the last two digits of the year she was born. For example, a value of ``84'' indicates that the mother was born in 1984. Education level is represented as the number of completed years of education starting from 1st grade through college, if applicable.
+
+The range of durations for breastfeeding is from 1 week to 192 weeks. Only 12\% of subjects had breastfeeding durations greater than 36 weeks. If we were to graph $\hat S(t)$, 20\% of the x-axis will contain 88\% of the data, which makes detecting patterns in the data visually very difficult. For this reason, durations greater than 36 weeks will be treated as 36 weeks.
 
 A sample of the full data set is shown below.
 
@@ -193,6 +199,30 @@ xtable(bfeed.show)
 @
 
 \section*{Results}
+
+Below is a graph of survival data for all points with no explanatory variables in the model.
+
+<<bfeed-survival, echo = FALSE, fig = TRUE, include = FALSE>>=
+bfeed.fit <- survfit(Surv(duration, delta) ~ 1, data = bfeed.short)
+
+ggsurv(bfeed.fit) +
+  ggtitle('Breast Feeding Duration') +
+  xlab('Duration in Weeks') +
+  ylab('Survival') +
+  geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+@
+\begin{figure}[h]
+\begin{center}
+\includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-survival.pdf}
+\end{center}
+\caption{Breast Feeding Survival Data}
+\label{fig:bfeed-survival}
+\end{figure}
+
+The red dashed line represents the Food and Drug Administration's recommended duration of breastfeeding, 6 months. The steep drop off at 36 weeks is due to the data clipping used to make the graphs easier to interpret. The red crosses indicate censored observations and the dashed black line is the confidence band of the Kaplan-Meier estimator.
+
 % Exploratory Analysis (“graphical”: graphs, descriptive statistics)
 % * Survival of some college vs no college
 % * Survival by poverty (before 27 weeks, after 27 weeks)
