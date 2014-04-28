@@ -16,9 +16,13 @@
 library(ggplot2)
 library(gridExtra)
 library(survival)
+library(KMsurv)
 library(xtable)
+
 ws <- read.csv('worksheet.csv', header = TRUE)
 ws$id <- sprintf('%02d', 1:nrow(ws))
+
+data(bfeed)
 @
 
 \section*{Introduction}
@@ -145,6 +149,10 @@ print(xtable(ws.table),
 The values of $\hat S_i$ in the table give the estimates for the Kaplan-Meier survival estimator.
 
 Similarly, the cumulative risk estimator $\hat \Lambda{t}$ can be estimated given our sample data. An estimate for the cumulative risk is the cumulative sum of $\frac{n - d}{n}$ which can be easily computed from the table above. This is called the Nelson-Aalen estimator.
+
+\subsection*{Models}
+
+TODO
 % Overview of Technique
 % * Concepts
 %   + Problems
@@ -165,6 +173,24 @@ Similarly, the cumulative risk estimator $\hat \Lambda{t}$ can be estimated give
 %   + Only first-born
 %   + Only gestation of 20 to 45 weeks
 %   + Only complete responses
+
+\section*{Data Set}
+
+We will examine data from the National Labor Survey of Youth. The data set looks at the relation between the duration of breast feeding and various factors. This data set examines pregnancies before 1983 and includes only complete data points (no data missing). According to the original researchers, the year restriction is put in place to mitigate ``recall problems.'' Also, this data is restricted to first-born children and to children whose gestation is between 20 and 45 weeks. With these restrictions, there are a total of 927 data points.
+
+Breastfeeding duration is measured in weeks. The study tracks the following factors: race (white, black, other), poverty, somking, drinks alcohol, age of mother, mother's year of birth, mother's education level, and if the mother has prenatal car after the 3rd month of pregnancy.
+
+Race is denoted as the integers 1 to 3 where 1 represents white, 2 represents black, and 3 represents other. Poverty, smoking, drinks alcohol, and prenatal care are denoted as booleans where 1 represents a ``yes'' to the category and 0 represents ``no''. For example, a 1 in the smoking category means the mother is a smoker. Age of mother is in years. The mother's year of birth is represented as the last two digits of the year she was born. For example, a value of ``84'' indicates that the mother was born in 1984. Education level is represented as the number of completed years of education starting from 1st grade through college, if applicable.
+
+A sample of the full data set is shown below.
+
+<<bfeed-raw, echo = FALSE, results = tex>>=
+bfeed.show <- bfeed[c(556, 108, 21, 513, 109, 16), ]
+rownames(bfeed.show) <- 1:nrow(bfeed.show)
+bfeed.show <- t(bfeed.show)
+
+xtable(bfeed.show)
+@
 
 \section*{Results}
 % Exploratory Analysis (“graphical”: graphs, descriptive statistics)
