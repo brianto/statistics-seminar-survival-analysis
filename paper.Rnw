@@ -198,7 +198,7 @@ bfeed.show <- t(bfeed.show)
 xtable(bfeed.show)
 @
 
-\section*{Results}
+\section*{Results and Discussion}
 
 Below is a graph of survival data for all points with no explanatory variables in the model.
 
@@ -223,14 +223,13 @@ ggsurv(bfeed.fit) +
 
 The red dashed line represents the Food and Drug Administration's recommended duration of breastfeeding, 6 months. The steep drop off at 36 weeks is due to the data clipping used to make the graphs easier to interpret. The red crosses indicate censored observations and the dashed black line is the confidence band of the Kaplan-Meier estimator.
 
+Notice that the survival rate drops off sharply after the first feel weeks. For weeks 0 to 5, there is a 25\% drop in survival. In contrast, there is a similar drop in survival for weeks 10 to 20. Casually, we can say that the survival rate for breast feeding improves for the mothers who breast feed longer. Likewise, we can say that the expected duration of breastfeeding is around 10 weeks and that less than 25\% of mothers breast feed for at least the FDA recommended breastfeeding duration.
+
 % Exploratory Analysis (“graphical”: graphs, descriptive statistics)
 % * Survival of some college vs no college
 % * Survival by poverty (before 27 weeks, after 27 weeks)
 % Statistical Analysis (“analytical”: hypotheses, test statistics, p-values, conclusions)
 % Validation of Assumptions (graphs and/or tests)
-
-\section*{Discussion}
-% Explain conclusions and interpretations in layman's terms.
 
 %%% References
 % List all books, journal articles and web pages used.
