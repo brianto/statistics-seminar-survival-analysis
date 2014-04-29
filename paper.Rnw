@@ -236,6 +236,13 @@ ggsurv(survfit(Surv(duration, delta) ~ yschool > 12, data = bfeed.short)) +
     colour = 'red',
     linetype = 'longdash')
 @
+\begin{figure}[h]
+\begin{center}
+\includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-education.pdf}
+\end{center}
+\caption{Breast Feeding Survival By Education}
+\label{fig:bfeed-education}
+\end{figure}
 
 The red line represents the survival rate for women with a high school diploma or less and the blue line represents the survival rate for women with some college education.
 
@@ -254,13 +261,63 @@ survdiff(Surv(duration, delta) ~ yschool > 12, data = bfeed.short)
 
 The $p$ value from the log-rank test is lower than our $\alpha$, which means we can reject $H_0$ that having some college education makes a difference in breastfeeding durations and support our casual conclusion that having some college education indicates longer breastfeeding durations.
 
+Another questions we may ask is ``Does poverty influence a mother's breastfeeding duration?'' Intuitively, we may guess that more affluent women can afford to breastfeed longer because they can afford maternity leave which allows time for breastfeeding. On the other hand, poorer women may breastfeed longer since formula is rather expensive, breastfeeding may be the cheaper alternative.
+
+<<bfeed-poverty, echo = FALSE, fig = TRUE, include = FALSE>>=
+ggsurv(survfit(Surv(duration, delta) ~ poverty, data = bfeed.short)) +
+  ggtitle('Breast Feeding Duration by Poverty, Duration < 36 Weeks') +
+  xlab('Duration in Weeks') +
+  ylab('Survival') +
+  geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+@
 \begin{figure}[h]
 \begin{center}
-\includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-education.pdf}
+\includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-poverty.pdf}
 \end{center}
-\caption{Breast Feeding Survival By Education}
-\label{fig:bfeed-education}
+\caption{Breast Feeding Survival By Poverty}
+\label{fig:bfeed-poverty}
 \end{figure}
+
+We can see that the two survival curves for the mothers in poverty and the mothers not in poverty cross many times and do not show any clear distinguishing pattern from each other. Casually, we can say that these two survival curves are not different.
+
+However, if we compress not the right tail but the first 20 weeks of breastfeeding, we arrive at a different conclusion.
+
+<<bfeed-poverty-tail, echo = FALSE, fig = TRUE, include = FALSE>>=
+bfeed.tail <- bfeed
+bfeed.tail$duration <- with(bfeed.tail, ifelse(duration > 20, duration, 20))
+
+ggsurv(survfit(Surv(duration, delta) ~ poverty, data = subset(bfeed.tail, duration > 20))) +
+  ggtitle('Breast Feeding Duration by Poverty, Duration > 20 Weeks') +
+  xlab('Duration in Weeks') +
+  ylab('Survival') +
+  geom_vline(aes(xintercept = 27),
+    colour = 'red',
+    linetype = 'longdash')
+@
+\begin{figure}[h]
+\begin{center}
+\includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-poverty-tail.pdf}
+\end{center}
+\caption{Breast Feeding Survival By Poverty}
+\label{fig:bfeed-poverty-tail}
+\end{figure}
+
+In figure \ref{fig:bfeed-poverty-tail}, we see that mothers who are in poverty generally breastfeed longer than those who are not in poverty. From this finding, we can casually claim that poverty increases breastfeeding survival rates only after some threshold duration.
+
+If we perform a log-rank test to examine if the survival functions are different, we find that there is little evidence to reject that the survival curves are the same. We also reach the same conclusion if we truncate either the right tail or left tail. Even though the right tail hints that mothers in poverty breastfeed for longer, there is insufficient evidence to suggest that it is the case.
+
+\[ H_0: \Lambda_{p = 1} = \Lambda_{p = 0} \]
+\[ H_a: \Lambda_{p = 1} \neq \Lambda_{p = 0} \]
+
+\scriptsize
+<<bfeed-poverty-test, echo = FALSE>>=
+survdiff(Surv(duration, delta) ~ poverty, data = bfeed)
+survdiff(Surv(duration, delta) ~ poverty, data = bfeed.short)
+survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
+@
+\normalsize
 
 % Exploratory Analysis (“graphical”: graphs, descriptive statistics)
 % * Survival of some college vs no college

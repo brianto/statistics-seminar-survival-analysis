@@ -198,7 +198,7 @@ ggsurv(survfit(Surv(duration, delta) ~ yschool > 12, data = bfeed.short)) +
 <<bfeed-by-poverty, echo = FALSE, fig = TRUE, height = 5>>=
 bfeed.poverty.short <-
   ggsurv(survfit(Surv(duration, delta) ~ poverty, data = bfeed.short)) +
-  ggtitle('Breast Feeding Duration by Poverty, Duration < 30 Weeks') +
+  ggtitle('Breast Feeding Duration by Poverty, Duration < 36 Weeks') +
   xlab('Duration in Weeks') +
   ylab('Survival') +
   geom_vline(aes(xintercept = 27),
