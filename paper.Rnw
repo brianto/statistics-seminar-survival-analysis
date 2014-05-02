@@ -176,6 +176,8 @@ Like the proportional hazards model, $\mathbf{x}$ is our matrix of factor values
 
 We can view the $\mathbf{x' \beta}$ factor in the model above as a modifier for the time-to-event $T$ that streatches and shrinks the survival rate horizontally. In expanded form, this linear term would look like $x_1 \beta_1 + x_2 \beta_2 + x_3 \beta_3 + \ldots$ which would simplify to $\exp(x_1 \beta_1) \exp(x_2 \beta_2) \exp(x_3 \beta_3) \ldots$ when we exponentiate both sides, ignoring the error term. In this form, we can see that the scaling factors are not additive, but multiplicative. If an $x\beta$ were to be 0, the resulting scaling factor would be $\exp(0) = 1$ which is the same as saying ``this factor has no effect on the time-to-event.''
 
+Variants of the accelerated failure time model can be made by varying the error term's distribution. For example, if $\epsilon$ follows a normal distribution, $T$ follows a log-normal distribution. If $\epsilon$ follows a logistic distribution, $T$ follows a log-log distribution.
+
 % Overview of Technique
 % * Concepts
 %   + Problems
@@ -346,6 +348,7 @@ survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
 
 %%% References
 % List all books, journal articles and web pages used.
+%%% http://data.princeton.edu/pop509/ParametricSurvival.pdf
 %%% http://data.princeton.edu/wws509/notes/c7.pdf
 %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
 %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
