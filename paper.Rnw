@@ -174,7 +174,7 @@ Accelerated failure time models model the effect of explanaory variables on the 
 
 Like the proportional hazards model, $\mathbf{x}$ is our matrix of factor values and $\mathbf{\beta}$ is our matrix of factor coefficients. $\epsilon$ represents error in our model, similar to the error expressed in linear models.
 
-We can view the $\mathbf{x' \beta}$ factor in the model above as a modifier for the time-to-event $T$ that streatches and shrinks the survival rate horizontally.
+We can view the $\mathbf{x' \beta}$ factor in the model above as a modifier for the time-to-event $T$ that streatches and shrinks the survival rate horizontally. In expanded form, this linear term would look like $x_1 \beta_1 + x_2 \beta_2 + x_3 \beta_3 + \ldots$ which would simplify to $\exp(x_1 \beta_1) \exp(x_2 \beta_2) \exp(x_3 \beta_3) \ldots$ when we exponentiate both sides, ignoring the error term. In this form, we can see that the scaling factors are not additive, but multiplicative. If an $x\beta$ were to be 0, the resulting scaling factor would be $\exp(0) = 1$ which is the same as saying ``this factor has no effect on the time-to-event.''
 
 % Overview of Technique
 % * Concepts
