@@ -156,7 +156,26 @@ Similarly, the cumulative risk estimator $\hat \Lambda{t}$ can be estimated give
 
 \subsection*{Models}
 
-TODO
+Survival models can generally be divided into two types: proportional hazards and accelerated failure time models.
+
+Proportional hazards models model the effect of explanatory variables on the hazard rate $\lambda$.
+
+\[ \lambda(t | \mathbf{x}) = \lambda_{0}(t) \exp \left( \mathbf{x' \beta} \right) \]
+
+In this model, $\mathbf{x}$ is our matrix of factor values and $\mathbf{\beta}$ is our matrix of factor coefficients. $\lambda_{0}(t)$ is our baseline hazard rate, or the hazard rate we would expect if the factors supplied have no effect on $\lambda(t | \mathbf{x})$.
+
+We can view the $\exp \left( \mathbf{x' \beta} \right)$ factor in the model above as a modifier for the baseline hazard rate $\lambda_{0}(t)$ that streatches and shrinks the baseline hazard vertically. In expanded form, this exponential term would look like $\exp \left( x_1 \beta_1 + x_2 \beta_2 + x_3 \beta_3 + \ldots \right)$ which would simplify to $\exp(x_1 \beta_1) \exp(x_2 \beta_2) \exp(x_3 \beta_3) \ldots$. In this simplified form, we can see that the scaling factors are not additive, but multiplicative. Also, if an $x\beta$ were to be 0, the resulting scaling factor would be $\exp(0) = 1$ which is the same as saying ``this factor has no effect on the hazard rate.''
+
+Variants of the proportional hazards model can be made by varying the baseline hazard's distribution. For example, if $\lambda_{0}$ follows an exponential distribution, then the hazard function $\lambda$ follows a Weibull distribution. Likewise, if $\lambda_{0}$ is constant, then $\lambda$ follows an exponential distribution.
+
+Accelerated failure time models model the effect of explanaory variables on the time-to-event $T$.
+
+\[ \log T = \mathbf{x' \beta} + \mathbf{\epsilon} \]
+
+Like the proportional hazards model, $\mathbf{x}$ is our matrix of factor values and $\mathbf{\beta}$ is our matrix of factor coefficients. $\epsilon$ represents error in our model, similar to the error expressed in linear models.
+
+We can view the $\mathbf{x' \beta}$ factor in the model above as a modifier for the time-to-event $T$ that streatches and shrinks the survival rate horizontally.
+
 % Overview of Technique
 % * Concepts
 %   + Problems
