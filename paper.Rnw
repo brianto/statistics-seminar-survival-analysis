@@ -4,7 +4,8 @@
 \usepackage{nicefrac}
 \usepackage{tabularx}
 \usepackage{graphicx}
-\usepackage{cite}
+% \usepackage{cite}
+\usepackage{natbib}
 \usepackage{hyperref}
 
 \title{Survival Analysis}
@@ -388,5 +389,12 @@ survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
 %%% Appendices
 % Full data set.
 % Output from analyses.
+
+\nocite{goldberg, applet}
+
+\appendix
+
+\bibliographystyle{acm}
+\bibliography{citations}
 
 \end{document}
