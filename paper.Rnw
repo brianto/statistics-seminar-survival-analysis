@@ -4,6 +4,8 @@
 \usepackage{nicefrac}
 \usepackage{tabularx}
 \usepackage{graphicx}
+\usepackage{cite}
+\usepackage{hyperref}
 
 \title{Survival Analysis}
 \author{Brian To}
@@ -332,14 +334,37 @@ If we perform a log-rank test to examine if the survival functions are different
 \[ H_0: S_{p = 1} = S_{p = 0} \]
 \[ H_a: S_{p = 1} \neq S_{p = 0} \]
 
-% TODO make these figures
+\begin{figure}[h]
 \scriptsize
-<<bfeed-poverty-test, echo = FALSE>>=
+<<bfeed-poverty-test-normal, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ poverty, data = bfeed)
+@
+\normalsize
+\label{fig:bfeed-poverty-test-normal}
+\caption{Testing $H_0: S_{p = 1} = S_{p = 0}$ for all data}
+\end{figure}
+
+\begin{figure}[h]
+\scriptsize
+<<bfeed-poverty-test-short, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ poverty, data = bfeed.short)
+@
+\normalsize
+\normalsize
+\label{fig:bfeed-poverty-test-short}
+\caption{Testing $H_0: S_{p = 1} = S_{p = 0}$ for data truncated at 36 weeks ($d \leq 36$)}
+\end{figure}
+
+\begin{figure}[h]
+\scriptsize
+<<bfeed-poverty-test-tail, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
 @
 \normalsize
+\normalsize
+\label{fig:bfeed-poverty-test-tail}
+\caption{Testing $H_0: S_{p = 1} = S_{p = 0}$ for data truncated at 20 weeks ($d \geq 20$)}
+\end{figure}
 
 % Exploratory Analysis (“graphical”: graphs, descriptive statistics)
 % * Survival of some college vs no college
