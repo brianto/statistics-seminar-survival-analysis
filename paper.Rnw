@@ -271,8 +271,8 @@ In this instance, women with some college education tend to breastfeed children 
 
 We may verify this casual relation by performing a log-rank test assuming $\alpha = 0.05$. The hypotheses for this test are:
 
-\[ H_0: \S_{ys \leq 12} = \S_{ys > 12} \]
-\[ H_a: \S_{ys \leq 12} \neq \S_{ys > 12} \]
+\[ H_0: S_{ys \leq 12} = S_{ys > 12} \]
+\[ H_a: S_{ys \leq 12} \neq S_{ys > 12} \]
 
 \scriptsize
 <<bfeed-education-test, echo = FALSE>>=
@@ -329,9 +329,10 @@ In figure \ref{fig:bfeed-poverty-tail}, we see that mothers who are in poverty g
 
 If we perform a log-rank test to examine if the survival functions are different, we find that there is little evidence to reject that the survival curves are the same. We also reach the same conclusion if we truncate either the right tail or left tail. Even though the right tail hints that mothers in poverty breastfeed for longer, there is insufficient evidence to suggest that it is the case.
 
-\[ H_0: \Lambda_{p = 1} = \Lambda_{p = 0} \]
-\[ H_a: \Lambda_{p = 1} \neq \Lambda_{p = 0} \]
+\[ H_0: S_{p = 1} = S_{p = 0} \]
+\[ H_a: S_{p = 1} \neq S_{p = 0} \]
 
+% TODO make these figures
 \scriptsize
 <<bfeed-poverty-test, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ poverty, data = bfeed)
