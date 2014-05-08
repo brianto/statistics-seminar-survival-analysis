@@ -31,9 +31,9 @@ bfeed.short$duration <- with(bfeed.short, ifelse(duration > 36, 36, duration))
 
 \section*{Introduction}
 
-Survival analysis is a relatively recent branch of statistics that tries to answer the question "what proportion of the population will survive until time $t$?" and similar questions. For example, "what proportion of Toyota buyers still own and use their car 10 years later?" and "what proportion of Toyota versus Ford buyers still own and use their car 10 years later?" To answer these types of questions, survival analysis focuses on measuring the \emph{duration until event}. In the car example, the measurement is the duration of ownership with use and the event is relinquishing ownership or stopping use such as in the case of selling or scraping the car.
+Survival analysis is a relatively recent branch of statistics that tries to answer the question "what proportion of the population will survive until time $t$?" and similar questions. For example, "what proportion of Toyota buyers still own and use their car 10 years later?" and "what proportion of Toyota versus Ford buyers still own and use their car 10 years later?" To answer these types of questions, survival analysis focuses on measuring the \emph{duration until event}. In the car example, the measurement is the duration of ownership with use and the event is relinquishing ownership or stopping use such as in the case of selling or scrapping the car.
 
-Survival analysis has roots in actuarial sciences where life tables were used in calculating insurance rates centuries ago. However, there has not been much advancement in the field until the last century. In World War II, military technology prowess did not keep up with its reliability until survival analysis was used to increase the reliability of equipment. Advances, however, were only limited to uses in the military and not embraced by the public. In the mid 1970s, Major Greenwood published a paper on cancer incidence and mortality by various types. Edward Kaplan and Paul Meier took notice of this study and developed what is known as the Kaplan-Meier estimator for the survival rate. After Kaplan and Meier published their landmark survival analysis paper, interest in the subject exploded and spread to other fields of study besides medical and engineering such as sociology and economics.
+Survival analysis has roots in actuarial sciences where life tables were used in calculating insurance rates centuries ago. However, there has not been much advancement in the field until the last century. In World War II, military technology prowess did not keep up with its reliability until survival analysis was used to increase the reliability of equipment. Advances, however, were limited to uses in the military and not embraced by the public. In the mid 1970s, Major Greenwood published a paper on cancer incidence and mortality by various types such as breast, uterus, rectum, tongue and mouth. Edward Kaplan and Paul Meier took notice of this study and developed what is known as the Kaplan-Meier estimator for the survival rate. After Kaplan and Meier published their landmark survival analysis paper, interest in the subject exploded and spread to other fields of study in addition to medical and engineering such as sociology and economics.
 
 The objective of this paper is to provide an introduction to survival analysis, including the design of survival studies, estimation and interpretation of survival and hazard curves, and using R to perform significance tests.
 % Background on Statistical Technique
@@ -63,25 +63,25 @@ Right censoring is when the subject has the event after the study ends. For exam
 Interval censoring is when the subject has the event within a time interval and the true time of event is not known. For example, a study examining the onset of sexually transmitted diseases for sex workers in third world countries may have interval censored data because determining the exact time of acquisition is impossible and acquisition can only be determined by check-ins which does not cause acquisition of STDs.
 
 \subsection*{Concepts}
-Assume that $f(t)$ represents the probability of the event occurring at time $t$. Each $f(t)$ is independent of other $f(t)$ values. For example, $f(2)$ has no relation to $f(3)$. $f$'s shape may be defined some concrete function, but future values may not be computed from previous values, such as $f(t) = 0.7 f(t - 1)$.
+Assume that $f(t)$ represents the probability of the event occurring at time $t$. Each $f(t)$ is independent of other $f(t)$ values. For example, $f(2)$ has no relation to $f(3)$. $f$'s shape may be defined by some concrete function, but future values may not be computed from previous values, such as $f(t) = 0.7 f(t - 1)$.
 
-The survival function $S(t)$ denotes the probability that a subject survives from $t_0$ to $t$. For a subject to survive in this interval, it must not have an event in any subinterval $t_0$, $t_1$, $t_2$, \ldots, $t$. Since the probability of not having an event in a interval is $1 - f(t)$, we can represent $S(t)$ as
+The survival function $S(t)$ denotes the probability that a subject survives from $t_0$ to $t$ where $t_0$ is the start of the study and $t$ is the current time. For a subject to survive to the end of this interval, it must not have an event in any subinterval $t_0$, $t_1$, $t_2$, \ldots, $t$. Since the probability of not having an event in a interval is $1 - f(t)$, we can represent $S(t)$ as
 
-\[ S(t) = \prod_{t_i = 0}^{t} 1 - f(t) \]
+\[ S(t) = \prod_{t_i = 0}^{t} \left( 1 - f(t) \right) \]
 
-More intuitively, we can say that the probability of surviving $t$ is the probability of surviving until $t$ and surviving $t$ itself. In other words
+More intuitively, we can say that the probability of surviving past time $t$ is the probability of surviving until $t$ and surviving $t$ itself. In other words
 
 \[ S(t) = S(t - 1) \cdot (1 - f(t)) \]
 
-The hazard function $\lambda(t)$ represents the odds of surviving until time $t$ and then experiencing an event in time $t$. This probability can be written as $P(\mbox{event} | \mbox{survive until } t)$. We may write this conditional probability as
+The hazard function $\lambda(t)$ represents the event rate given survival until time $t$ and then experiencing an event in time $t$. This probability can be written as $P(\mbox{event} | \mbox{survive up to } t)$. We may write this conditional probability as
 
 \[ \lambda(t) = \nicefrac{f(t)}{S(t)} \]
 
-The cumulative hazard function $\Lambda(t)$ represents the odds of experiencing an event in the interval until $t$. In other words, it is th cumulative risk of the event until $t$. A way to express this is the sum of risk for every interval until $t$. More succintly,
+The cumulative hazard function $\Lambda(t)$ represents the event rate of experiencing an event in the interval until $t$. In other words, it is th cumulative risk of the event until $t$. A way to express this is the sum of risk for every interval until $t$. More succintly,
 
 \[ \Lambda(t) = \sum_{t_i = 0}^{t} \lambda(t) \]
 
-It is important to note that $\lambda$ and $\Lambda$ are not probabilities, but \emph{odds ratios}. The range of these functions are not $[0, 1]$ but $[0, \infty)$.
+It is important to note that $\lambda$ and $\Lambda$ are not probabilities, but \emph{event rates}. The range of these functions are not $[0, 1]$ but $[0, \infty)$.
 
 \subsection*{Estimators}
 
@@ -152,7 +152,7 @@ print(xtable(ws.table),
 
 The values of $\hat S_i$ in the table give the estimates for the Kaplan-Meier survival estimator.
 
-Similarly, the cumulative risk estimator $\hat \Lambda{t}$ can be estimated given our sample data. An estimate for the cumulative risk is the cumulative sum of $\frac{n - d}{n}$ which can be easily computed from the table above. This is called the Nelson-Aalen estimator.
+Similarly, the cumulative risk estimator $\hat \Lambda{t}$ can be estimated given our sample data. An estimate for the cumulative risk is the cumulative sum of $\frac{d}{n}$ which can be easily computed from the table above. This is called the Nelson-Aalen estimator.
 
 \subsection*{Models}
 
@@ -203,13 +203,13 @@ Variants of the accelerated failure time model can be made by varying the error 
 
 We will examine data from the National Labor Survey of Youth. The data set looks at the relation between the duration of breast feeding and various factors. This data set examines pregnancies before 1983 and includes only complete data points (no data missing). According to the original researchers, the year restriction is put in place to mitigate ``recall problems.'' Also, this data is restricted to first-born children and to children whose gestation is between 20 and 45 weeks. With these restrictions, there are a total of 927 data points.
 
-Breastfeeding duration is measured in weeks. An event (delta) is defined as full weaning of the infant from breast milk. The study tracks the following factors: race (white, black, other), poverty, somking, drinks alcohol, age of mother, mother's year of birth, mother's education level, and if the mother has prenatal car after the 3rd month of pregnancy.
+Breastfeeding duration is measured in weeks. An event (delta) is defined as full weaning of the infant from breast milk. The study tracks the following factors: race (white, black, other), poverty, smoking, drinks alcohol, age of mother, mother's year of birth, mother's education level, and if the mother has prenatal care after the 3rd month of pregnancy.
 
-Race is denoted as the integers 1 to 3 where 1 represents white, 2 represents black, and 3 represents other. Poverty, smoking, drinks alcohol, and prenatal care are denoted as booleans where 1 represents a ``yes'' to the category and 0 represents ``no''. For example, a 1 in the smoking category means the mother is a smoker. Age of mother is in years. The mother's year of birth is represented as the last two digits of the year she was born. For example, a value of ``84'' indicates that the mother was born in 1984. Education level is represented as the number of completed years of education starting from 1st grade through college, if applicable.
+Race is coded as the integers 1 to 3 where 1 represents white, 2 represents black, and 3 represents other. Poverty, smoking, drinks alcohol, and prenatal care are denoted as booleans where 1 represents a ``yes'' to the category and 0 represents ``no''. For example, a 1 in the smoking category means the mother is a smoker. Age of mother is in years. The mother's year of birth is represented as the last two digits of the year she was born. For example, a value of ``84'' indicates that the mother was born in 1984. Education level is represented as the number of completed years of education starting from 1st grade through college, if applicable.
 
-The range of durations for breastfeeding is from 1 week to 192 weeks. Only 12\% of subjects had breastfeeding durations greater than 36 weeks. If we were to graph $\hat S(t)$, 20\% of the x-axis will contain 88\% of the data, which makes detecting patterns in the data visually very difficult. For this reason, durations greater than 36 weeks will be treated as 36 weeks.
+The range of durations for breastfeeding is from 1 week to 192 weeks. Only 12\% of subjects had breastfeeding durations greater than 36 weeks. If we were to graph $\hat S(t)$, 20\% of the x-axis will contain 88\% of the data, which makes detecting patterns in the data visually very difficult. For this reason, durations greater than 36 weeks will be censored as 36 weeks.
 
-A sample of the full data set is shown below.
+A portion of the full data set is shown below.
 
 <<bfeed-raw, echo = FALSE, results = tex>>=
 bfeed.show <- bfeed[c(556, 108, 21, 513, 109, 16), ]
@@ -221,7 +221,7 @@ xtable(bfeed.show)
 
 \section*{Results and Discussion}
 
-Below is a graph of survival data for all points with no explanatory variables in the model.
+Figure \ref{fig:bfeed-survival} is a graph of survival data for all points with no explanatory variables in the model.
 
 <<bfeed-survival, echo = FALSE, fig = TRUE, include = FALSE>>=
 bfeed.fit <- survfit(Surv(duration, delta) ~ 1, data = bfeed.short)
@@ -242,9 +242,9 @@ ggsurv(bfeed.fit) +
 \label{fig:bfeed-survival}
 \end{figure}
 
-The red dashed line represents the Food and Drug Administration's recommended duration of breastfeeding, 6 months. The steep drop off at 36 weeks is due to the data clipping used to make the graphs easier to interpret. The red crosses indicate censored observations and the dashed black line is the confidence band of the Kaplan-Meier estimator.
+The vertical red dashed line represents the Food and Drug Administration's recommended duration of breastfeeding, 6 months. The steep drop off at 36 weeks is due to the censoring used to make the graphs easier to interpret. The red crosses indicate censored observations and the dashed black line is the 95\% confidence band of the Kaplan-Meier estimator.
 
-Notice that the survival rate drops off sharply after the first feel weeks. For weeks 0 to 5, there is a 25\% drop in survival. In contrast, there is a similar drop in survival for weeks 10 to 20. Casually, we can say that the survival rate for breast feeding improves for the mothers who breast feed longer. Likewise, we can say that the expected duration of breastfeeding is around 10 weeks and that less than 25\% of mothers breast feed for at least the FDA recommended breastfeeding duration.
+Notice that the survival rate drops off sharply after the first few weeks. For weeks 0 to 5, there is a 25\% drop in survival. In contrast, there is a similar drop in survival for weeks 10 to 20. Casually, we can say that the survival rate for breast feeding improves for the mothers who breast feed longer. Likewise, we can say that the expected duration of breastfeeding is around 10 weeks and that less than 25\% of mothers breast feed for at least the FDA recommended breastfeeding duration.
 
 One question we may ask is ``Do college-educated women breastfeed longer?'' Intuitively, we may reason that college-educated women are more aware of parenting issues and have more access to parenting resources, so they are more likely to know to breastfeed for a long duration and have the support to breastfeed for a long duration. Or perhaps it is the reverse since less-educated women may depend more on parents for parenting support and their parents may provide more support for breastfeeding long durations.
 
@@ -269,7 +269,7 @@ The red line represents the survival rate for women with a high school diploma o
 
 In this instance, women with some college education tend to breastfeed children longer than women with a high school education or less. That is \emph{not} to say \emph{every} woman with a high school diploma or less breast feeds less than \emph{every} woman with some college education. Nor can we say that having some college education causes longer breastfeeding durations.
 
-We may verify this casual relation by performing a log-rank test assuming $\alpha = 0.05$ and where the hypotheses are:
+We may verify this casual relation by performing a log-rank test assuming $\alpha = 0.05$. The log-rank test compares hazard rates rather than survival rates:
 
 \[ H_0: \Lambda_{ys \leq 12} = \Lambda_{ys > 12} \]
 \[ H_a: \Lambda_{ys \leq 12} \neq \Lambda_{ys > 12} \]
@@ -348,6 +348,7 @@ survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
 
 %%% References
 % List all books, journal articles and web pages used.
+%%% http://www.cabdirect.org/abstracts/19272700028.html
 %%% http://data.princeton.edu/pop509/ParametricSurvival.pdf
 %%% http://data.princeton.edu/wws509/notes/c7.pdf
 %%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
@@ -355,6 +356,7 @@ survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
 %%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3059453/
 %%% http://www.jehps.net/juin2009/Aalenetal.pdf
 %%% www.worldofstatistics.org/files/2012/12/Stat2013.pptx
+%%% http://books.google.com/books?id=xttbn0a-QR8C&lpg=PA15&ots=aZ4QAk7z6f&dq=interpretation%20of%20failure%20rate%20survival%20analysis&pg=PA14#v=onepage&q=interpretation%20of%20failure%20rate%20survival%20analysis&f=false
 %%% http://books.google.com/books?id=1iI5rHtCT-4C&lpg=PA112&ots=2jMXda6Zjy&dq=%22major%20greenwood%22%20cancer&pg=PA112#v=onepage&q=%22major%20greenwood%22%20cancer&f=false
 
 %%% Appendices
