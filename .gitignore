@@ -25,3 +25,8 @@ paper.tex
 paper-*.pdf
 paper.aux
 paper.bbl
+paper.blg
+paper.fff
+paper.lof
+paper.lot
+paper.ttt

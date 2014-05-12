@@ -4,8 +4,7 @@
 \usepackage{nicefrac}
 \usepackage{tabularx}
 \usepackage{graphicx}
-% \usepackage{cite}
-\usepackage{natbib}
+\usepackage{cite}
 \usepackage{hyperref}
 
 \title{Survival Analysis}
@@ -112,7 +111,7 @@ ggplot(ws, aes(y = id, yend = id, colour = event)) +
   geom_point(aes(
     x = duration), size = 2)
 @
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
 \includegraphics[keepaspectratio=true, width=3in]{paper-ws.pdf}
 \end{center}
@@ -237,7 +236,7 @@ ggsurv(bfeed.fit) +
     colour = 'red',
     linetype = 'longdash')
 @
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
 \includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-survival.pdf}
 \end{center}
@@ -260,7 +259,7 @@ ggsurv(survfit(Surv(duration, delta) ~ yschool > 12, data = bfeed.short)) +
     colour = 'red',
     linetype = 'longdash')
 @
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
 \includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-education.pdf}
 \end{center}
@@ -277,11 +276,15 @@ We may verify this casual relation by performing a log-rank test assuming $\alph
 \[ H_0: S_{ys \leq 12} = S_{ys > 12} \]
 \[ H_a: S_{ys \leq 12} \neq S_{ys > 12} \]
 
+\begin{figure}
 \scriptsize
 <<bfeed-education-test, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ yschool > 12, data = bfeed.short)
 @
 \normalsize
+\label{fig:bfeed-education-test}
+\caption{Testing $H_0: S_{ys \leq 12} = S_{ys > 12}$ for all data}
+\end{figure}
 
 The $p$ value from the log-rank test is lower than our $\alpha$, which means we can reject $H_0$ that having some college education makes a difference in breastfeeding durations and support our casual conclusion that having some college education indicates longer breastfeeding durations.
 
@@ -296,7 +299,7 @@ ggsurv(survfit(Surv(duration, delta) ~ poverty, data = bfeed.short)) +
     colour = 'red',
     linetype = 'longdash')
 @
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
 \includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-poverty.pdf}
 \end{center}
@@ -320,7 +323,7 @@ ggsurv(survfit(Surv(duration, delta) ~ poverty, data = subset(bfeed.tail, durati
     colour = 'red',
     linetype = 'longdash')
 @
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
 \includegraphics[keepaspectratio=true, width=3in]{paper-bfeed-poverty-tail.pdf}
 \end{center}
@@ -335,7 +338,7 @@ If we perform a log-rank test to examine if the survival functions are different
 \[ H_0: S_{p = 1} = S_{p = 0} \]
 \[ H_a: S_{p = 1} \neq S_{p = 0} \]
 
-\begin{figure}[h]
+\begin{figure}
 \scriptsize
 <<bfeed-poverty-test-normal, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ poverty, data = bfeed)
@@ -345,7 +348,7 @@ survdiff(Surv(duration, delta) ~ poverty, data = bfeed)
 \caption{Testing $H_0: S_{p = 1} = S_{p = 0}$ for all data}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
 \scriptsize
 <<bfeed-poverty-test-short, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ poverty, data = bfeed.short)
@@ -356,7 +359,7 @@ survdiff(Surv(duration, delta) ~ poverty, data = bfeed.short)
 \caption{Testing $H_0: S_{p = 1} = S_{p = 0}$ for data truncated at 36 weeks ($d \leq 36$)}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
 \scriptsize
 <<bfeed-poverty-test-tail, echo = FALSE>>=
 survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
@@ -375,22 +378,12 @@ survdiff(Surv(duration, delta) ~ poverty, data = bfeed.tail)
 
 %%% References
 % List all books, journal articles and web pages used.
-%%% http://www.cabdirect.org/abstracts/19272700028.html
-%%% http://data.princeton.edu/pop509/ParametricSurvival.pdf
-%%% http://data.princeton.edu/wws509/notes/c7.pdf
-%%% http://www2.sas.com/proceedings/sugi26/p244-26.pdf
-%%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3227332/
-%%% http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3059453/
-%%% http://www.jehps.net/juin2009/Aalenetal.pdf
-%%% www.worldofstatistics.org/files/2012/12/Stat2013.pptx
-%%% http://books.google.com/books?id=xttbn0a-QR8C&lpg=PA15&ots=aZ4QAk7z6f&dq=interpretation%20of%20failure%20rate%20survival%20analysis&pg=PA14#v=onepage&q=interpretation%20of%20failure%20rate%20survival%20analysis&f=false
-%%% http://books.google.com/books?id=1iI5rHtCT-4C&lpg=PA112&ots=2jMXda6Zjy&dq=%22major%20greenwood%22%20cancer&pg=PA112#v=onepage&q=%22major%20greenwood%22%20cancer&f=false
 
 %%% Appendices
 % Full data set.
 % Output from analyses.
 
-\nocite{goldberg, applet}
+\nocite{*}
 
 \appendix
 
